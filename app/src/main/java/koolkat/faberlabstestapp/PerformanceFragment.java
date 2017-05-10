@@ -1,13 +1,17 @@
 package koolkat.faberlabstestapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,7 +20,7 @@ import android.widget.Toast;
  * Created by Admin on 4/29/2017.
  */
 
-public class PerformanceFragment  extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class PerformanceFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
 
     Button connectbtn, beginbtn;
     ImageView imgv1, imgv2, imgv3, imgv4;
@@ -48,7 +52,7 @@ public class PerformanceFragment  extends android.support.v4.app.Fragment implem
         return view;
     }
 
-    private void rotate(int currentresource){
+    /*private void rotate(int currentresource){
         resource = R.drawable.runbox;
         if(currentresource == resource) {
             imgv1.setImageResource(R.drawable.timebox);
@@ -93,41 +97,92 @@ public class PerformanceFragment  extends android.support.v4.app.Fragment implem
             imgv4.setImageResource(R.drawable.cardiobox);
             imgv4.setTag(R.drawable.cardiobox);
         }
+    }*/
+
+    private void animateDiagonalPan() {
+        AnimatorSet animSetXY = new AnimatorSet();
+
+        float imgv1x = imgv1.getX();
+        float imgv1y = imgv1.getY();
+
+        float imgv2x = imgv2.getX();
+        float imgv2y = imgv2.getY();
+
+        float imgv3x = imgv3.getX();
+        float imgv3y = imgv3.getY();
+
+        float imgv4x = imgv4.getX();
+        float imgv4y = imgv4.getY();
+
+        ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
+                "translationY", imgv1.getY(), imgv3y);
+
+        ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
+                "translationX", imgv1.getX(), imgv3x);
+
+        ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
+                "translationY", imgv2.getY(), imgv1y);
+
+        ObjectAnimator imganim2b = ObjectAnimator.ofFloat(imgv2,
+                "translationX", imgv2.getX(), imgv1x);
+
+        ObjectAnimator imganim3a = ObjectAnimator.ofFloat(imgv3,
+                "translationY", imgv3.getY(), imgv4y);
+
+        ObjectAnimator imganim3b = ObjectAnimator.ofFloat(imgv3,
+                "translationX", imgv3.getX(), imgv4x);
+
+        ObjectAnimator imganim4a = ObjectAnimator.ofFloat(imgv4,
+                "translationY", imgv4.getY(), imgv2y);
+
+        ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
+                "translationX", imgv4.getX(), imgv2x);
+
+        animSetXY.playTogether(imganim1a, imganim1b, imganim2a, imganim2b, imganim3a, imganim3b, imganim4a, imganim4b);
+        animSetXY.setInterpolator(new LinearInterpolator());
+        animSetXY.setDuration(300);
+        animSetXY.start();
     }
 
     @Override
     public void onClick(View v) {
-        if(v==connectbtn)
+        if (v == connectbtn)
             Toast.makeText(getContext(), "Connecting...", Toast.LENGTH_SHORT).show();
-        if(v==beginbtn) {
+        if (v == beginbtn) {
             Toast.makeText(getContext(), "Beginning...", Toast.LENGTH_SHORT).show();
         }
-        if(v==imgv1) {
-            currentresource = (Integer) imgv1.getTag();
-            rotate(currentresource);
+        if (v == imgv1) {
+            animateDiagonalPan();
+            //currentresource = (Integer) imgv1.getTag();
+            //rotate(currentresource);
         }
-        if(v==imgv2) {
-            currentresource = (Integer) imgv2.getTag();
-            rotate(currentresource);
+        if (v == imgv2) {
+            animateDiagonalPan();
+            //currentresource = (Integer) imgv2.getTag();
+            //rotate(currentresource);
         }
-        if(v==imgv3){
-            currentresource = (Integer) imgv3.getTag();
-            rotate(currentresource);
+        if (v == imgv3) {
+            animateDiagonalPan();
+            //currentresource = (Integer) imgv3.getTag();
+            //rotate(currentresource);
         }
-        if(v==imgv4) {
+        if (v == imgv4) {
+            animateDiagonalPan();
+            /*
             currentresource = (Integer) imgv4.getTag();
             resource = R.drawable.runbox;
-            if(currentresource == resource)
+            if (currentresource == resource)
                 Toast.makeText(getContext(), "Just Run", Toast.LENGTH_SHORT).show();
             resource = R.drawable.timebox;
-            if(currentresource == resource)
+            if (currentresource == resource)
                 Toast.makeText(getContext(), "Time", Toast.LENGTH_SHORT).show();
             resource = R.drawable.cardiobox;
-            if(currentresource == resource)
+            if (currentresource == resource)
                 Toast.makeText(getContext(), "Cardio", Toast.LENGTH_SHORT).show();
             resource = R.drawable.distancebox;
-            if(currentresource == resource)
+            if (currentresource == resource)
                 Toast.makeText(getContext(), "Distance", Toast.LENGTH_SHORT).show();
+                */
         }
     }
 }
