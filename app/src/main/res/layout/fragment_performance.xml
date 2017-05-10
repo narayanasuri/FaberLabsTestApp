@@ -1,151 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundimg">
+    android:background="@drawable/backgroundimg"
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/connectbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/connectbtn"
+        android:text="Connect to devices"
+        android:textColor="@android:color/white" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
-        <Button
-            android:id="@+id/connectbtn"
+        <ImageView
+            android:id="@+id/imgv1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/runbox" />
+
+        <ImageView
+            android:id="@+id/imgv2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/distancebox" />
+
+        <ImageView
+            android:id="@+id/imgv3"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/cardiobox" />
+
+        <ImageView
+            android:id="@+id/imgv4"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:src="@drawable/timebox" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/connectbtn"
-            android:text="Connect to devices"
-            android:textColor="@android:color/white" />
+            android:padding="12dp"
+            android:text="Time"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <ImageView
-                android:id="@+id/imgv1"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/runbox" />
-
-            <ImageView
-                android:id="@+id/imgv2"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/distancebox" />
-
-            <ImageView
-                android:id="@+id/imgv3"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/cardiobox" />
-
-            <ImageView
-                android:id="@+id/imgv4"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
-                android:src="@drawable/timebox" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:text="Time"
-                android:textColor="@android:color/black"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="12dp"
-                android:text="00:30:12 >"
-                android:textColor="@android:color/black"
-                android:textSize="19sp" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:text="Feedback Options"
-                android:textColor="@android:color/black"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="12dp"
-                android:text=">"
-                android:textColor="@android:color/black"
-                android:textSize="19sp" />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:text="Location"
-                android:textColor="@android:color/black"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:padding="12dp"
-                android:text="Outdoor >"
-                android:textColor="@android:color/black"
-                android:textSize="19sp" />
-
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/beginbtn"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/beginbtn"
-            android:text="Begin"
-            android:textColor="@android:color/white"
-            android:textSize="15dp" />
+            android:layout_alignParentEnd="true"
+            android:padding="12dp"
+            android:text="00:30:12 >"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
 
-    </LinearLayout>
-</ScrollView>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Feedback Options"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="12dp"
+            android:text=">"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Location"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="12dp"
+            android:text="Outdoor >"
+            android:textColor="@android:color/black"
+            android:textSize="19sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/beginbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/beginbtn"
+        android:text="Begin"
+        android:textColor="@android:color/white"
+        android:textSize="15dp" />
+
+</LinearLayout>
