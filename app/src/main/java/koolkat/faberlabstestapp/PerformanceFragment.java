@@ -149,18 +149,26 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         switch (centerTile){
             case 1:
                 centerTile = 2;
+                imgv1.bringToFront();
+                imgv4.bringToFront();
                 imgv2.bringToFront();
                 break;
             case 2:
                 centerTile = 4;
+                imgv2.bringToFront();
+                imgv3.bringToFront();
                 imgv4.bringToFront();
                 break;
             case 3:
                 centerTile = 1;
+                imgv3.bringToFront();
+                imgv2.bringToFront();
                 imgv1.bringToFront();
                 break;
             case 4:
                 centerTile = 3;
+                imgv4.bringToFront();
+                imgv1.bringToFront();
                 imgv3.bringToFront();
                 break;
         }
