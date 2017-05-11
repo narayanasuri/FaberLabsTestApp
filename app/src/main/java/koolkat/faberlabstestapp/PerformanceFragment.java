@@ -53,53 +53,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         return view;
     }
 
-    /*private void rotate(int currentresource){
-        resource = R.drawable.runbox;
-        if(currentresource == resource) {
-            imgv1.setImageResource(R.drawable.timebox);
-            imgv1.setTag(R.drawable.timebox);
-            imgv2.setImageResource(R.drawable.cardiobox);
-            imgv2.setTag(R.drawable.cardiobox);
-            imgv3.setImageResource(R.drawable.distancebox);
-            imgv3.setTag(R.drawable.distancebox);
-            imgv4.setImageResource(R.drawable.runbox);
-            imgv4.setTag(R.drawable.runbox);
-        }
-        resource = R.drawable.timebox;
-        if(currentresource == resource) {
-            imgv1.setImageResource(R.drawable.runbox);
-            imgv1.setTag(R.drawable.runbox);
-            imgv2.setImageResource(R.drawable.distancebox);
-            imgv2.setTag(R.drawable.distancebox);
-            imgv3.setImageResource(R.drawable.cardiobox);
-            imgv3.setTag(R.drawable.cardiobox);
-            imgv4.setImageResource(R.drawable.timebox);
-            imgv4.setTag(R.drawable.timebox);
-        }
-        resource = R.drawable.distancebox;
-        if(currentresource == resource) {
-            imgv1.setImageResource(R.drawable.cardiobox);
-            imgv1.setTag(R.drawable.cardiobox);
-            imgv2.setImageResource(R.drawable.runbox);
-            imgv2.setTag(R.drawable.runbox);
-            imgv3.setImageResource(R.drawable.timebox);
-            imgv3.setTag(R.drawable.timebox);
-            imgv4.setImageResource(R.drawable.distancebox);
-            imgv4.setTag(R.drawable.distancebox);
-        }
-        resource = R.drawable.cardiobox;
-        if(currentresource == resource) {
-            imgv1.setImageResource(R.drawable.distancebox);
-            imgv1.setTag(R.drawable.distancebox);
-            imgv2.setImageResource(R.drawable.timebox);
-            imgv2.setTag(R.drawable.timebox);
-            imgv3.setImageResource(R.drawable.runbox);
-            imgv3.setTag(R.drawable.runbox);
-            imgv4.setImageResource(R.drawable.cardiobox);
-            imgv4.setTag(R.drawable.cardiobox);
-        }
-    }*/
-
     private void animateDiagonalPan() {
         AnimatorSet animSetXY = new AnimatorSet();
 
@@ -145,7 +98,53 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         animSetXY.start();
     }
 
-    private int evaluateCenter(int centerTile){
+    private void animateDiagonalPan2() {
+        AnimatorSet animSetXY = new AnimatorSet();
+
+        float imgv1x = imgv1.getX();
+        float imgv1y = imgv1.getY();
+
+        float imgv2x = imgv2.getX();
+        float imgv2y = imgv2.getY();
+
+        float imgv3x = imgv3.getX();
+        float imgv3y = imgv3.getY();
+
+        float imgv4x = imgv4.getX();
+        float imgv4y = imgv4.getY();
+
+        ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
+                "y", imgv2y);
+
+        ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
+                "x", imgv2x);
+
+        ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
+                "y", imgv2.getY(), imgv4y);
+
+        ObjectAnimator imganim2b = ObjectAnimator.ofFloat(imgv2,
+                "x", imgv2.getX(), imgv4x);
+
+        ObjectAnimator imganim3a = ObjectAnimator.ofFloat(imgv3,
+                "y", imgv3.getY(), imgv1y);
+
+        ObjectAnimator imganim3b = ObjectAnimator.ofFloat(imgv3,
+                "x", imgv3.getX(), imgv1x);
+
+        ObjectAnimator imganim4a = ObjectAnimator.ofFloat(imgv4,
+                "y", imgv4.getY(), imgv3y);
+
+        ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
+                "x", imgv4.getX(), imgv3x);
+
+        animSetXY.playTogether(imganim1a, imganim1b, imganim2a, imganim2b, imganim3a, imganim3b, imganim4a, imganim4b);
+        animSetXY.setInterpolator(new LinearInterpolator());
+        animSetXY.setDuration(300);
+        animSetXY.start();
+    }
+
+    private int evaluateCenterRight(int centerTile){
+        //clockwise
         //integer corresponds to the respective imageview
         switch (centerTile){
             case 1:
@@ -168,6 +167,30 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         return centerTile;
     }
 
+    private int evaluateCenterLeft(int centerTile){
+        //anti-clockwise
+        //integer corresponds to the respective imageview
+        switch (centerTile){
+            case 1:
+                centerTile = 3;
+                imgv3.bringToFront();
+                break;
+            case 2:
+                centerTile = 1;
+                imgv1.bringToFront();
+                break;
+            case 3:
+                centerTile = 4;
+                imgv4.bringToFront();
+                break;
+            case 4:
+                centerTile = 2;
+                imgv2.bringToFront();
+                break;
+        }
+        return centerTile;
+    }
+
     @Override
     public void onClick(View v) {
         if (v == connectbtn)
@@ -177,8 +200,14 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         }
         if (v == imgv1) {
             if(centerTile!=1) {
-                animateDiagonalPan();
-                centerTile = evaluateCenter(centerTile);
+                if(centerTile==2) {
+                    animateDiagonalPan2();
+                    centerTile = evaluateCenterLeft(centerTile);
+                }
+                else if(centerTile==3){
+                    animateDiagonalPan();
+                    centerTile = evaluateCenterRight(centerTile);
+                }
             }
             else{
                 Toast.makeText(getContext(), "Just Run", Toast.LENGTH_SHORT).show();
@@ -186,8 +215,14 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         }
         if (v == imgv2) {
             if(centerTile!=2) {
-                animateDiagonalPan();
-                centerTile = evaluateCenter(centerTile);
+                if(centerTile==1) {
+                    animateDiagonalPan();
+                    centerTile = evaluateCenterRight(centerTile);
+                }
+                else if(centerTile==4){
+                    animateDiagonalPan2();
+                    centerTile = evaluateCenterLeft(centerTile);
+                }
             }
             else{
                 Toast.makeText(getContext(), "Distance", Toast.LENGTH_SHORT).show();
@@ -195,8 +230,14 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         }
         if (v == imgv3) {
             if(centerTile!=3) {
-                animateDiagonalPan();
-                centerTile = evaluateCenter(centerTile);
+                if(centerTile==4) {
+                    animateDiagonalPan();
+                    centerTile = evaluateCenterRight(centerTile);
+                }
+                else if(centerTile==1){
+                    animateDiagonalPan2();
+                    centerTile = evaluateCenterLeft(centerTile);
+                }
             }
             else{
                 Toast.makeText(getContext(), "Cardio", Toast.LENGTH_SHORT).show();
@@ -204,8 +245,14 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         }
         if (v == imgv4) {
             if(centerTile!=4) {
-                animateDiagonalPan();
-                centerTile = evaluateCenter(centerTile);
+                if(centerTile==3) {
+                    animateDiagonalPan2();
+                    centerTile = evaluateCenterLeft(centerTile);
+                }
+                else if(centerTile==2){
+                    animateDiagonalPan();
+                    centerTile = evaluateCenterRight(centerTile);
+                }
             }
             else{
                 Toast.makeText(getContext(), "Time", Toast.LENGTH_SHORT).show();
