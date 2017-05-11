@@ -24,7 +24,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
     Button connectbtn, beginbtn;
     ImageView imgv1, imgv2, imgv3, imgv4;
-    int currentresource, resource;
+    int currentresource, resource, centerTile;
 
     public static PerformanceFragment newInstance() {
         return new PerformanceFragment();
@@ -32,6 +32,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        centerTile = 4;
         View view = inflater.inflate(R.layout.fragment_performance, container, false);
         connectbtn = (Button) view.findViewById(R.id.connectbtn);
         beginbtn = (Button) view.findViewById(R.id.beginbtn);
@@ -115,33 +116,56 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         float imgv4y = imgv4.getY();
 
         ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
-                "translationY", imgv1.getY(), imgv3y);
+                "y", imgv3y);
 
         ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
-                "translationX", imgv1.getX(), imgv3x);
+                "x", imgv3x);
 
         ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
-                "translationY", imgv2.getY(), imgv1y);
+                "y", imgv2.getY(), imgv1y);
 
         ObjectAnimator imganim2b = ObjectAnimator.ofFloat(imgv2,
-                "translationX", imgv2.getX(), imgv1x);
+                "x", imgv2.getX(), imgv1x);
 
         ObjectAnimator imganim3a = ObjectAnimator.ofFloat(imgv3,
-                "translationY", imgv3.getY(), imgv4y);
+                "y", imgv3.getY(), imgv4y);
 
         ObjectAnimator imganim3b = ObjectAnimator.ofFloat(imgv3,
-                "translationX", imgv3.getX(), imgv4x);
+                "x", imgv3.getX(), imgv4x);
 
         ObjectAnimator imganim4a = ObjectAnimator.ofFloat(imgv4,
-                "translationY", imgv4.getY(), imgv2y);
+                "y", imgv4.getY(), imgv2y);
 
         ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
-                "translationX", imgv4.getX(), imgv2x);
+                "x", imgv4.getX(), imgv2x);
 
         animSetXY.playTogether(imganim1a, imganim1b, imganim2a, imganim2b, imganim3a, imganim3b, imganim4a, imganim4b);
         animSetXY.setInterpolator(new LinearInterpolator());
         animSetXY.setDuration(300);
         animSetXY.start();
+    }
+
+    private int evaluateCenter(int centerTile){
+        //integer corresponds to the respective imageview
+        switch (centerTile){
+            case 1:
+                centerTile = 2;
+                imgv2.bringToFront();
+                break;
+            case 2:
+                centerTile = 4;
+                imgv4.bringToFront();
+                break;
+            case 3:
+                centerTile = 1;
+                imgv1.bringToFront();
+                break;
+            case 4:
+                centerTile = 3;
+                imgv3.bringToFront();
+                break;
+        }
+        return centerTile;
     }
 
     @Override
@@ -152,37 +176,40 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             Toast.makeText(getContext(), "Beginning...", Toast.LENGTH_SHORT).show();
         }
         if (v == imgv1) {
-            animateDiagonalPan();
-            //currentresource = (Integer) imgv1.getTag();
-            //rotate(currentresource);
+            if(centerTile!=1) {
+                animateDiagonalPan();
+                centerTile = evaluateCenter(centerTile);
+            }
+            else{
+                Toast.makeText(getContext(), "Just Run", Toast.LENGTH_SHORT).show();
+            }
         }
         if (v == imgv2) {
-            animateDiagonalPan();
-            //currentresource = (Integer) imgv2.getTag();
-            //rotate(currentresource);
+            if(centerTile!=2) {
+                animateDiagonalPan();
+                centerTile = evaluateCenter(centerTile);
+            }
+            else{
+                Toast.makeText(getContext(), "Distance", Toast.LENGTH_SHORT).show();
+            }
         }
         if (v == imgv3) {
-            animateDiagonalPan();
-            //currentresource = (Integer) imgv3.getTag();
-            //rotate(currentresource);
+            if(centerTile!=3) {
+                animateDiagonalPan();
+                centerTile = evaluateCenter(centerTile);
+            }
+            else{
+                Toast.makeText(getContext(), "Cardio", Toast.LENGTH_SHORT).show();
+            }
         }
         if (v == imgv4) {
-            animateDiagonalPan();
-            /*
-            currentresource = (Integer) imgv4.getTag();
-            resource = R.drawable.runbox;
-            if (currentresource == resource)
-                Toast.makeText(getContext(), "Just Run", Toast.LENGTH_SHORT).show();
-            resource = R.drawable.timebox;
-            if (currentresource == resource)
+            if(centerTile!=4) {
+                animateDiagonalPan();
+                centerTile = evaluateCenter(centerTile);
+            }
+            else{
                 Toast.makeText(getContext(), "Time", Toast.LENGTH_SHORT).show();
-            resource = R.drawable.cardiobox;
-            if (currentresource == resource)
-                Toast.makeText(getContext(), "Cardio", Toast.LENGTH_SHORT).show();
-            resource = R.drawable.distancebox;
-            if (currentresource == resource)
-                Toast.makeText(getContext(), "Distance", Toast.LENGTH_SHORT).show();
-                */
+            }
         }
     }
 }
