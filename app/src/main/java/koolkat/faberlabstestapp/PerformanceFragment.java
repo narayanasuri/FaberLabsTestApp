@@ -40,10 +40,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         imgv1.setTag(R.drawable.runbox);
         imgv2 = (ImageView) view.findViewById(R.id.imgv2);
         imgv2.setTag(R.drawable.distancebox);
+        imgv2.bringToFront();
         imgv3 = (ImageView) view.findViewById(R.id.imgv3);
         imgv3.setTag(R.drawable.cardiobox);
+        imgv3.bringToFront();
         imgv4 = (ImageView) view.findViewById(R.id.imgv4);
         imgv4.setTag(R.drawable.timebox);
+        imgv4.bringToFront();
         connectbtn.setOnClickListener(this);
         beginbtn.setOnClickListener(this);
         imgv1.setOnClickListener(this);
@@ -69,10 +72,10 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         float imgv4y = imgv4.getY();
 
         ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
-                "y", imgv3y);
+                "y", imgv1.getY(), imgv3y);
 
         ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
-                "x", imgv3x);
+                "x", imgv1.getX(), imgv3x);
 
         ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
                 "y", imgv2.getY(), imgv1y);
@@ -94,7 +97,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         animSetXY.playTogether(imganim1a, imganim1b, imganim2a, imganim2b, imganim3a, imganim3b, imganim4a, imganim4b);
         animSetXY.setInterpolator(new LinearInterpolator());
-        animSetXY.setDuration(300);
+        animSetXY.setDuration(500);
         animSetXY.start();
     }
 
@@ -114,10 +117,10 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         float imgv4y = imgv4.getY();
 
         ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
-                "y", imgv2y);
+                "y", imgv1.getY(), imgv2y);
 
         ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
-                "x", imgv2x);
+                "x", imgv1.getX(), imgv2x);
 
         ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
                 "y", imgv2.getY(), imgv4y);
@@ -139,7 +142,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         animSetXY.playTogether(imganim1a, imganim1b, imganim2a, imganim2b, imganim3a, imganim3b, imganim4a, imganim4b);
         animSetXY.setInterpolator(new LinearInterpolator());
-        animSetXY.setDuration(300);
+        animSetXY.setDuration(500);
         animSetXY.start();
     }
 
@@ -149,26 +152,26 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         switch (centerTile){
             case 1:
                 centerTile = 2;
-                imgv1.bringToFront();
                 imgv4.bringToFront();
+                imgv1.bringToFront();
                 imgv2.bringToFront();
                 break;
             case 2:
                 centerTile = 4;
-                imgv2.bringToFront();
                 imgv3.bringToFront();
+                imgv2.bringToFront();
                 imgv4.bringToFront();
                 break;
             case 3:
                 centerTile = 1;
-                imgv3.bringToFront();
                 imgv2.bringToFront();
+                imgv3.bringToFront();
                 imgv1.bringToFront();
                 break;
             case 4:
                 centerTile = 3;
-                imgv4.bringToFront();
                 imgv1.bringToFront();
+                imgv4.bringToFront();
                 imgv3.bringToFront();
                 break;
         }
