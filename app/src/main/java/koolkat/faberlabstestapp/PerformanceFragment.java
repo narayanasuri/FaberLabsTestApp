@@ -12,11 +12,15 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.CycleInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.PathInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,12 +48,11 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     Button connectbtn, beginbtn;
     ImageView imgv1, imgv2, imgv3, imgv4;
     int centerTile;
-    LinearLayout runLayout, cardioLayout, timeLayout, distanceLayout;
-    RelativeLayout cardiopanelType, cardiopanelFeedback, cardiopanelLocation;
+    LinearLayout runLayout, cardioLayout, timeLayout, distanceLayout, tilesLayout;
+    RelativeLayout cardiopanelType, cardiopanelFeedback, cardiopanelLocation, tilesRelativeLayout;
     RelativeLayout timepanelTime, timepanelFeedback, timepanelLocation;
     RelativeLayout distancepanelDistance, distancepanelFeedback, distancepanelLocation, distancepanelTime;
     RelativeLayout runpanelDistance, runpanelFeedback;
-    Button cardioBeginButton, timeBeginButton, distanceBeginButton, runBeginButton;
     TextView cardioPanelTypetv, cardioPanelLocationtv;
     TextView timePanelTimetv, timePanelLocationtv;
     TextView distancePanelDistancetv, distancePanelLocationtv, distancePanelTimetv;
@@ -57,9 +60,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     Calendar dateTime;
     SimpleDateFormat sdf;
 
-    String cardioPanelTypeValue, cardioPanelLocationValue;
-    String timePanelTimeValue="00:30:12", timePanelLocationValue;
-    String distancePanelDistanceValue="18", distancePanelLocationValue, distancePanelTimeValue="00:14:00";
+    private String[] cardioPanelTypeArray = {"Endurance", "Strength"};
+    private int indexCardioPanelType=0;
+
+    private String[] cardioPanelLocationArray = {"Indoor", "Outdoor"};
+    private int indexCardioPanelLocation=0;
+
+    private String[] timePanelLocationArray = {"Indoor", "Outdoor"};
+    private int indexTimePanelLocation=1;
+
+    private String[] distancePanelLocationArray = {"Indoor", "Outdoor"};
+    private int indexDistancePanelLocation=0;
+
+    String cardioPanelTypeValue="Endurance", cardioPanelLocationValue="Indoor";
+    String timePanelTimeValue="00:30:12", timePanelLocationValue="Outdoor";
+    String distancePanelDistanceValue="18", distancePanelLocationValue="Outdoor", distancePanelTimeValue="00:14:00";
     String runPanelDistanceValue="18";
 
     public static PerformanceFragment newInstance() {
@@ -74,19 +89,33 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         dateTime = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm:ss");
 
+        tilesRelativeLayout = (RelativeLayout) view.findViewById(R.id.tiles_relative_layout);
+        tilesRelativeLayout.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeTop() {
+                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                onClick(v);
+                return true;
+            }
+        });
+
+        tilesLayout = (LinearLayout) view.findViewById(R.id.tiles_layout);
+
         runLayout = (LinearLayout) view.findViewById(R.id.run_panel);
         cardioLayout = (LinearLayout) view.findViewById(R.id.cardio_panel);
         timeLayout = (LinearLayout) view.findViewById(R.id.time_panel);
         distanceLayout = (LinearLayout) view.findViewById(R.id.distance_panel);
-
-        cardioBeginButton = (Button) view.findViewById(R.id.cardio_beginbtn);
-        cardioBeginButton.setOnClickListener(this);
-        timeBeginButton = (Button) view.findViewById(R.id.time_beginbtn);
-        timeBeginButton.setOnClickListener(this);
-        distanceBeginButton = (Button) view.findViewById(R.id.distance_beginbtn);
-        distanceBeginButton.setOnClickListener(this);
-        runBeginButton = (Button) view.findViewById(R.id.run_beginbtn);
-        runBeginButton.setOnClickListener(this);
 
 
         cardiopanelType = (RelativeLayout) view.findViewById(R.id.cardiopanel_type);
@@ -127,6 +156,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         runPanelFeedbacktv = (TextView) view.findViewById(R.id.runpanel_feedbacktv);
 
         connectbtn = (Button) view.findViewById(R.id.connectbtn);
+        beginbtn = (Button) view.findViewById(R.id.beginbtn);
+        beginbtn.setOnClickListener(this);
         imgv1 = (ImageView) view.findViewById(R.id.imgv1);
         imgv1.setTag(R.drawable.runbox);
         imgv2 = (ImageView) view.findViewById(R.id.imgv2);
@@ -143,6 +174,80 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         imgv2.setOnClickListener(this);
         imgv3.setOnClickListener(this);
         imgv4.setOnClickListener(this);
+
+        imgv1.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeTop() {
+                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                onClick(v);
+                return true;
+            }
+        });
+
+        imgv2.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeTop() {
+                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                onClick(v);
+                return true;
+            }
+        });
+
+        imgv3.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeTop() {
+                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+            public boolean onTouch(View v, MotionEvent event) {
+                onClick(v);
+                return true;
+            }
+        });
+
+        imgv4.setOnTouchListener(new OnSwipeTouchListener(getContext()){
+            public void onSwipeRight() {
+                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+            }
+            public boolean onTouch(View v, MotionEvent event) {
+                onClick(v);
+                return true;
+            }
+        });
+
         return view;
     }
 
@@ -187,13 +292,24 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
                 "x", imgv4.getX(), imgv2x);
 
-        animSetXYa.playTogether(imganim1b, imganim2b, imganim3b, imganim4b);
-        animSetXYa.setInterpolator(new DecelerateInterpolator());
-        animSetXYb.playTogether(imganim1a, imganim2a, imganim3a, imganim4a);
-        animSetXYb.setInterpolator(new AccelerateDecelerateInterpolator());
-        animSetXY.playTogether(animSetXYa, animSetXYb);
-        animSetXY.setDuration(300);
-        animSetXY.start();
+        if(centerTile == 4 || centerTile == 1) {
+            animSetXYa.playTogether(imganim1a, imganim2b, imganim3b, imganim4a);
+            animSetXYa.setInterpolator(new AccelerateInterpolator());
+            animSetXYb.playTogether(imganim1b, imganim2a, imganim3a, imganim4b);
+            animSetXYb.setInterpolator(new DecelerateInterpolator());
+            animSetXY.playTogether(animSetXYa, animSetXYb);
+            animSetXY.setDuration(500);
+            animSetXY.start();
+        }
+        else{
+            animSetXYa.playTogether(imganim2a, imganim4b, imganim1b, imganim3a);
+            animSetXYa.setInterpolator(new AccelerateInterpolator());
+            animSetXYb.playTogether(imganim2b, imganim4a, imganim1a, imganim3b);
+            animSetXYb.setInterpolator(new DecelerateInterpolator());
+            animSetXY.playTogether(animSetXYa, animSetXYb);
+            animSetXY.setDuration(500);
+            animSetXY.start();
+        }
     }
 
     private void animateDiagonalPan2() {
@@ -237,13 +353,24 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
                 "x", imgv4.getX(), imgv3x);
 
-        animSetXYa.playTogether(imganim1b, imganim2b, imganim3b, imganim4b);
-        animSetXYa.setInterpolator(new DecelerateInterpolator());
-        animSetXYb.playTogether(imganim1a, imganim2a, imganim3a, imganim4a);
-        animSetXYb.setInterpolator(new AccelerateDecelerateInterpolator());
-        animSetXY.playTogether(animSetXYa, animSetXYb);
-        animSetXY.setDuration(300);
-        animSetXY.start();
+        if(centerTile == 4 || centerTile == 1) {
+            animSetXYa.playTogether(imganim1a, imganim2b, imganim3b, imganim4a);
+            animSetXYa.setInterpolator(new AccelerateInterpolator());
+            animSetXYb.playTogether(imganim1b, imganim2a, imganim3a, imganim4b);
+            animSetXYb.setInterpolator(new DecelerateInterpolator());
+            animSetXY.playTogether(animSetXYa, animSetXYb);
+            animSetXY.setDuration(500);
+            animSetXY.start();
+        }
+        else{
+            animSetXYa.playTogether(imganim2a, imganim4b, imganim1b, imganim3a);
+            animSetXYa.setInterpolator(new AccelerateInterpolator());
+            animSetXYb.playTogether(imganim2b, imganim4a, imganim1a, imganim3b);
+            animSetXYb.setInterpolator(new DecelerateInterpolator());
+            animSetXY.playTogether(animSetXYa, animSetXYb);
+            animSetXY.setDuration(500);
+            animSetXY.start();
+        }
     }
 
     private int evaluateCenterRight(int centerTile){
@@ -334,11 +461,25 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     @Override
     public void onClick(View v) {
 
+        if(v == beginbtn){
+            switch (centerTile){
+                case 1:
+                    Toast.makeText(getContext(), "Beginning Just Run...", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    Toast.makeText(getContext(), "Beginning Distance...", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    Toast.makeText(getContext(), "Beginning Cardio...", Toast.LENGTH_SHORT).show();
+                    break;
+                case 4:
+                    Toast.makeText(getContext(), "Beginning Time...", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+
         if (v == connectbtn) {
             Toast.makeText(getContext(), "Connecting...", Toast.LENGTH_SHORT).show();
-        }
-        if (v == beginbtn) {
-            Toast.makeText(getContext(), "Beginning...", Toast.LENGTH_SHORT).show();
         }
         if (v == imgv1) {
             if(centerTile!=1) {
@@ -350,9 +491,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     animateDiagonalPan();
                     centerTile = evaluateCenterRight(centerTile);
                 }
-            }
-            else{
-                Toast.makeText(getContext(), "Just Run", Toast.LENGTH_SHORT).show();
             }
         }
         if (v == imgv2) {
@@ -366,9 +504,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     centerTile = evaluateCenterLeft(centerTile);
                 }
             }
-            else{
-                Toast.makeText(getContext(), "Distance", Toast.LENGTH_SHORT).show();
-            }
         }
         if (v == imgv3) {
             if(centerTile!=3) {
@@ -380,9 +515,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     animateDiagonalPan2();
                     centerTile = evaluateCenterLeft(centerTile);
                 }
-            }
-            else{
-                Toast.makeText(getContext(), "Cardio", Toast.LENGTH_SHORT).show();
             }
         }
         if (v == imgv4) {
@@ -396,9 +528,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     centerTile = evaluateCenterRight(centerTile);
                 }
             }
-            else{
-                Toast.makeText(getContext(), "Time", Toast.LENGTH_SHORT).show();
-            }
         }
 
         //Cardio Panel Items
@@ -408,22 +537,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Cardio Type :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("Endurance");
-            arrayAdapter.add("Strength");
+            builderSingle.setSingleChoiceItems(cardioPanelTypeArray, indexCardioPanelType, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexCardioPanelType = which;
+                    cardioPanelTypeValue = cardioPanelTypeArray[which];
+                    String strName = cardioPanelTypeArray[which];
+                    cardioPanelTypetv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                }
-            });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String strName = arrayAdapter.getItem(which);
-                    cardioPanelTypetv.setText(strName+" >");
                 }
             });
             builderSingle.show();
@@ -456,9 +584,16 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Location :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("Indoor");
-            arrayAdapter.add("Outdoor");
+            builderSingle.setSingleChoiceItems(cardioPanelLocationArray, indexCardioPanelLocation, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexCardioPanelLocation = which;
+                    cardioPanelLocationValue = cardioPanelLocationArray[which];
+                    String strName = cardioPanelLocationArray[which];
+                    cardioPanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -466,18 +601,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     dialog.dismiss();
                 }
             });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String strName = arrayAdapter.getItem(which);
-                    cardioPanelLocationtv.setText(strName+" >");
-                }
-            });
             builderSingle.show();
-        }
-        if(v == cardioBeginButton){
-            Toast.makeText(getContext(), "Beginning Cardio...", Toast.LENGTH_SHORT).show();
         }
 
         //Time Panel Items
@@ -513,22 +637,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Location :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("Outdoor");
-            arrayAdapter.add("Indoor");
+            builderSingle.setSingleChoiceItems(timePanelLocationArray, indexTimePanelLocation, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexTimePanelLocation = which;
+                    timePanelLocationValue = timePanelLocationArray[which];
+                    String strName = timePanelLocationArray[which];
+                    timePanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                }
-            });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String strName = arrayAdapter.getItem(which);
-                    timePanelLocationtv.setText(strName+" >");
                 }
             });
             builderSingle.show();
@@ -555,9 +678,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                 }
             });
             builderSingle.show();
-        }
-        if(v == timeBeginButton){
-            Toast.makeText(getContext(), "Beginning Time...", Toast.LENGTH_SHORT).show();
         }
 
         //Distance Panel
@@ -629,22 +749,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Location :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("Outdoor");
-            arrayAdapter.add("Indoor");
+            builderSingle.setSingleChoiceItems(distancePanelLocationArray, indexDistancePanelLocation, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexDistancePanelLocation = which;
+                    distancePanelLocationValue = distancePanelLocationArray[which];
+                    String strName = distancePanelLocationArray[which];
+                    distancePanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                }
-            });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String strName = arrayAdapter.getItem(which);
-                    distancePanelLocationtv.setText(strName+" >");
                 }
             });
             builderSingle.show();
@@ -674,9 +793,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                 }
             }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar. SECOND), true);
             myTimePickerDialog.show();
-        }
-        if(v == distanceBeginButton){
-            Toast.makeText(getContext(), "Beginning Distance...", Toast.LENGTH_SHORT).show();
         }
 
         //Run Panel
@@ -743,9 +859,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                 }
             });
             builderSingle.show();
-        }
-        if(v == runBeginButton){
-            Toast.makeText(getContext(), "Beginning Just Run...", Toast.LENGTH_SHORT).show();
         }
     }
 }

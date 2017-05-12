@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,19 +12,22 @@
         android:id="@+id/connectbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/connectbtn"
         android:text="Connect to devices"
         android:textColor="@android:color/white" />
 
     <LinearLayout
+        android:id="@+id/tiles_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/connectbtn"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/tiles_relative_layout"
             android:layout_marginTop="10dp">
 
             <ImageView
@@ -67,6 +70,7 @@
         android:id="@+id/run_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tiles_layout"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -125,153 +129,134 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/run_beginbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/beginbtn"
-            android:text="Begin"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
-
     </LinearLayout>
 
     <!--Distance Panel-->
 
-        <LinearLayout
-            android:id="@+id/distance_panel"
+    <LinearLayout
+        android:id="@+id/distance_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tiles_layout"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/distancepanel_distance"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/distancepanel_distance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Distance"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/distancepanel_distancetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="18km >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/distancepanel_feedback"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Feedback Options"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text=">"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Location"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/distancepanel_locationtv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="Outdoor >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Time"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/distancepanel_timetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="00:14:00 >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/distance_beginbtn"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/beginbtn"
-                android:text="Begin"
-                android:textColor="@android:color/white"
-                android:textSize="15sp" />
+                android:padding="8dp"
+                android:text="Distance"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/distancepanel_distancetv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="8dp"
+                android:text="18km >"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black" />
+
+        <RelativeLayout
+            android:id="@+id/distancepanel_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/distancepanel_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Feedback Options"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="8dp"
+                android:text=">"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black" />
+
+        <RelativeLayout
+            android:id="@+id/distancepanel_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Location"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/distancepanel_locationtv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="8dp"
+                android:text="Outdoor >"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black" />
+
+        <RelativeLayout
+            android:id="@+id/distancepanel_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Time"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/distancepanel_timetv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="8dp"
+                android:text="00:14:00 >"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <!--Cardio Panel-->
 
@@ -279,6 +264,7 @@
         android:id="@+id/cardio_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tiles_layout"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -366,16 +352,6 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/cardio_beginbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/beginbtn"
-            android:text="Begin"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
-
     </LinearLayout>
 
     <!--Time Panel-->
@@ -384,6 +360,7 @@
         android:id="@+id/time_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tiles_layout"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -471,16 +448,17 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/time_beginbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/beginbtn"
-            android:text="Begin"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
-
     </LinearLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/beginbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/beginbtn"
+        android:text="Begin"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+</RelativeLayout>
