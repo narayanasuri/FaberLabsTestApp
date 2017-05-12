@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 public class WeightFragment extends Fragment implements View.OnClickListener {
 
-    Button startbtn, cancelbtn;
-
     public static WeightFragment newInstance() {
         return new WeightFragment();
     }
@@ -23,18 +21,11 @@ public class WeightFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weight, container, false);
-        startbtn = (Button) view.findViewById(R.id.startbtn);
-        cancelbtn = (Button) view.findViewById(R.id.cancel_btn);
-        startbtn.setOnClickListener(this);
-        cancelbtn.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if(v==startbtn)
-            Toast.makeText(getContext(), "Timer started!", Toast.LENGTH_SHORT).show();
-        if(v==cancelbtn)
-            Toast.makeText(getContext(), "Timer stopped!", Toast.LENGTH_SHORT).show();
+
     }
 }

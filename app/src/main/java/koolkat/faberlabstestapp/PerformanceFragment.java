@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,12 +27,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -44,6 +48,13 @@ import java.util.Date;
  */
 
 public class PerformanceFragment extends android.support.v4.app.Fragment implements View.OnClickListener, MyTimePickerDialog.OnTimeSetListener {
+
+    LinearLayout weightTabLayout;
+    RelativeLayout performanceTabLayout;
+    LinearLayout trainingTabLayout;
+    LinearLayout settingTabLayout;
+
+    //Performance Tab
 
     Button connectbtn, beginbtn;
     ImageView imgv1, imgv2, imgv3, imgv4;
@@ -77,6 +88,20 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     String distancePanelDistanceValue="18", distancePanelLocationValue="Outdoor", distancePanelTimeValue="00:14:00";
     String runPanelDistanceValue="18";
 
+    //Weight Tab
+
+    Button startbtn, cancelbtn;
+    TextView weightTimerText;
+    ProgressBar weightTimerProgressBar;
+    int n;
+    Handler h;
+
+    //Training Tab
+    Button endSessionButton;
+    TextView trainingTabExpandtv;
+
+    ImageView settingCondenseImg;
+
     public static PerformanceFragment newInstance() {
         return new PerformanceFragment();
     }
@@ -85,6 +110,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         centerTile = 4;
         View view = inflater.inflate(R.layout.fragment_performance, container, false);
+
+        weightTabLayout = (LinearLayout) view.findViewById(R.id.weight_tab);
+        performanceTabLayout = (RelativeLayout) view.findViewById(R.id.performance_tab);
+        trainingTabLayout = (LinearLayout) view.findViewById(R.id.training_tab);
+        settingTabLayout = (LinearLayout) view.findViewById(R.id.setting_tab);
+
+        //Performance Tab
 
         dateTime = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm:ss");
@@ -282,10 +314,30 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             }
         });
 
+
+        //Weight Tab
+
+        startbtn = (Button) view.findViewById(R.id.startbtn);
+        cancelbtn = (Button) view.findViewById(R.id.cancel_btn);
+        startbtn.setOnClickListener(this);
+        cancelbtn.setOnClickListener(this);
+        weightTimerText = (TextView) view.findViewById(R.id.weight_tab_timertext);
+        weightTimerProgressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
+
+        //Training Tab
+        endSessionButton = (Button) view.findViewById(R.id.endsessionbtn);
+        endSessionButton.setOnClickListener(this);
+        trainingTabExpandtv = (TextView) view.findViewById(R.id.training_tab_expandtv);
+        trainingTabExpandtv.setOnClickListener(this);
+
+        settingCondenseImg = (ImageView) view.findViewById(R.id.condense_img);
+        settingCondenseImg.setOnClickListener(this);
+
         return view;
     }
 
     private void animateDiagonalPan() {
+
         AnimatorSet animSetXY = new AnimatorSet();
         AnimatorSet animSetXYa = new AnimatorSet();
         AnimatorSet animSetXYb = new AnimatorSet();
@@ -496,20 +548,37 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     public void onClick(View v) {
 
         if(v == beginbtn){
-            switch (centerTile){
-                case 1:
-                    Toast.makeText(getContext(), "Beginning Just Run...", Toast.LENGTH_SHORT).show();
-                    break;
-                case 2:
-                    Toast.makeText(getContext(), "Beginning Distance...", Toast.LENGTH_SHORT).show();
-                    break;
-                case 3:
-                    Toast.makeText(getContext(), "Beginning Cardio...", Toast.LENGTH_SHORT).show();
-                    break;
-                case 4:
-                    Toast.makeText(getContext(), "Beginning Time...", Toast.LENGTH_SHORT).show();
-                    break;
+            n = 10;
+            try {
+                Date date = sdf.parse(timePanelTimeValue);
+                dateTime.setTime(date);
             }
+            catch(ParseException e){
+                System.out.println(e);
+            }
+            long x = dateTime.get(Calendar.HOUR_OF_DAY)*60*60;
+            long y = dateTime.get(Calendar.MINUTE)*60;
+            long z = dateTime.get(Calendar.SECOND);
+            long progressBarTime = (x+y+z) * 1000;
+            performanceTabLayout.setVisibility(View.GONE);
+            weightTabLayout.setVisibility(View.VISIBLE);
+            ObjectAnimator progressBarAnim = ObjectAnimator.ofInt(weightTimerProgressBar, "progress", 0, 100);
+            progressBarAnim.setDuration(10000);
+            progressBarAnim.setInterpolator(new DecelerateInterpolator());
+            h = new Handler();
+            h.postDelayed(new Runnable(){
+                public void run(){
+                    weightTimerText.setText(n+"");
+                    n--;
+                    h.postDelayed(this, 1000);
+                    if(n==0) {
+                        weightTabLayout.setVisibility(View.GONE);
+                        trainingTabLayout.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                }
+            }, 0);
+            progressBarAnim.start();
         }
 
         if (v == connectbtn) {
@@ -846,5 +915,30 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
+
+
+        if(v==startbtn){
+            weightTabLayout.setVisibility(View.GONE);
+            trainingTabLayout.setVisibility(View.VISIBLE);
+        }
+        if(v==cancelbtn){
+            weightTabLayout.setVisibility(View.GONE);
+            performanceTabLayout.setVisibility(View.VISIBLE);
+        }
+        if(v == endSessionButton){
+            trainingTabLayout.setVisibility(View.GONE);
+            performanceTabLayout.setVisibility(View.VISIBLE);
+        }
+
+        if(v == trainingTabExpandtv){
+            trainingTabExpandtv.setVisibility(View.GONE);
+            settingTabLayout.setVisibility(View.VISIBLE);
+        }
+
+        if(v == settingCondenseImg){
+            settingTabLayout.setVisibility(View.GONE);
+            trainingTabExpandtv.setVisibility(View.VISIBLE);
+        }
+
     }
 }
