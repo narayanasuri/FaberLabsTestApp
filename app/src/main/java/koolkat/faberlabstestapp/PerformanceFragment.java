@@ -91,17 +91,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         tilesRelativeLayout = (RelativeLayout) view.findViewById(R.id.tiles_relative_layout);
         tilesRelativeLayout.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeTop() {
-                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
-            }
             public void onSwipeRight() {
-                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
             }
             public void onSwipeLeft() {
-                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
             }
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -176,17 +172,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         imgv4.setOnClickListener(this);
 
         imgv1.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeTop() {
-                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
-            }
             public void onSwipeRight() {
-                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
             }
             public void onSwipeLeft() {
-                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
             }
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -196,17 +188,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         });
 
         imgv2.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeTop() {
-                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
-            }
             public void onSwipeRight() {
-                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
             }
             public void onSwipeLeft() {
-                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
             }
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -216,17 +204,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         });
 
         imgv3.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeTop() {
-                Toast.makeText(getContext(), "top", Toast.LENGTH_SHORT).show();
-            }
             public void onSwipeRight() {
-                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
             }
             public void onSwipeLeft() {
-                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(getContext(), "bottom", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
             }
 
             public boolean onTouch(View v, MotionEvent event) {
@@ -237,10 +221,12 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         imgv4.setOnTouchListener(new OnSwipeTouchListener(getContext()){
             public void onSwipeRight() {
-                Toast.makeText(getContext(), "right", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
             }
             public void onSwipeLeft() {
-                Toast.makeText(getContext(), "left", Toast.LENGTH_SHORT).show();
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
             }
             public boolean onTouch(View v, MotionEvent event) {
                 onClick(v);
