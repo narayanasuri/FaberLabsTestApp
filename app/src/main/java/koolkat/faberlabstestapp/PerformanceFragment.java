@@ -103,7 +103,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     Button endSessionButton;
     TextView trainingTabExpandtv;
 
-    ImageView settingCondenseImg;
+    ImageView settingCondenseImg, settingImage2, settingImage3;
 
     public static PerformanceFragment newInstance() {
         return new PerformanceFragment();
@@ -335,6 +335,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         settingCondenseImg = (ImageView) view.findViewById(R.id.condense_img);
         settingCondenseImg.setOnClickListener(this);
+        settingImage2 = (ImageView) view.findViewById(R.id.setting_img2);
+        settingImage3 = (ImageView) view.findViewById(R.id.setting_img3);
 
         return view;
     }
@@ -942,12 +944,16 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         if(v == trainingTabExpandtv){
             trainingTabExpandtv.setVisibility(View.GONE);
-            settingTabLayout.setVisibility(View.VISIBLE);
+            settingCondenseImg.setVisibility(View.VISIBLE);
+            settingImage2.setVisibility(View.VISIBLE);
+            settingImage3.setVisibility(View.VISIBLE);
         }
 
         if(v == settingCondenseImg){
-            settingTabLayout.setVisibility(View.GONE);
             trainingTabExpandtv.setVisibility(View.VISIBLE);
+            settingCondenseImg.setVisibility(View.GONE);
+            settingImage2.setVisibility(View.GONE);
+            settingImage3.setVisibility(View.GONE);
         }
 
     }
