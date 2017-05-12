@@ -70,7 +70,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     private int indexTimePanelLocation=1;
 
     private String[] distancePanelLocationArray = {"Indoor", "Outdoor"};
-    private int indexDistancePanelLocation=0;
+    private int indexDistancePanelLocation=1;
 
     String cardioPanelTypeValue="Endurance", cardioPanelLocationValue="Indoor";
     String timePanelTimeValue="00:30:12", timePanelLocationValue="Outdoor";
