@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,12 +49,18 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     RelativeLayout timepanelTime, timepanelFeedback, timepanelLocation;
     RelativeLayout distancepanelDistance, distancepanelFeedback, distancepanelLocation, distancepanelTime;
     RelativeLayout runpanelDistance, runpanelFeedback;
-    Button cardioBeginButton, timeBeginButton, distanceBeginButton;
+    Button cardioBeginButton, timeBeginButton, distanceBeginButton, runBeginButton;
     TextView cardioPanelTypetv, cardioPanelLocationtv;
     TextView timePanelTimetv, timePanelLocationtv;
     TextView distancePanelDistancetv, distancePanelLocationtv, distancePanelTimetv;
     TextView runPanelDistancetv, runPanelFeedbacktv;
-    Calendar dateTime = Calendar.getInstance();
+    Calendar dateTime;
+    SimpleDateFormat sdf;
+
+    String cardioPanelTypeValue, cardioPanelLocationValue;
+    String timePanelTimeValue="00:30:12", timePanelLocationValue;
+    String distancePanelDistanceValue="18", distancePanelLocationValue, distancePanelTimeValue="00:14:00";
+    String runPanelDistanceValue="18";
 
     public static PerformanceFragment newInstance() {
         return new PerformanceFragment();
@@ -62,6 +70,9 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         centerTile = 4;
         View view = inflater.inflate(R.layout.fragment_performance, container, false);
+
+        dateTime = Calendar.getInstance();
+        sdf = new SimpleDateFormat("HH:mm:ss");
 
         runLayout = (LinearLayout) view.findViewById(R.id.run_panel);
         cardioLayout = (LinearLayout) view.findViewById(R.id.cardio_panel);
@@ -74,6 +85,9 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         timeBeginButton.setOnClickListener(this);
         distanceBeginButton = (Button) view.findViewById(R.id.distance_beginbtn);
         distanceBeginButton.setOnClickListener(this);
+        runBeginButton = (Button) view.findViewById(R.id.run_beginbtn);
+        runBeginButton.setOnClickListener(this);
+
 
         cardiopanelType = (RelativeLayout) view.findViewById(R.id.cardiopanel_type);
         cardiopanelType.setOnClickListener(this);
@@ -174,9 +188,9 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                 "x", imgv4.getX(), imgv2x);
 
         animSetXYa.playTogether(imganim1b, imganim2b, imganim3b, imganim4b);
-        animSetXYa.setInterpolator(new AccelerateDecelerateInterpolator());
+        animSetXYa.setInterpolator(new DecelerateInterpolator());
         animSetXYb.playTogether(imganim1a, imganim2a, imganim3a, imganim4a);
-        animSetXYb.setInterpolator(new DecelerateInterpolator());
+        animSetXYb.setInterpolator(new AccelerateDecelerateInterpolator());
         animSetXY.playTogether(animSetXYa, animSetXYb);
         animSetXY.setDuration(300);
         animSetXY.start();
@@ -224,9 +238,9 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                 "x", imgv4.getX(), imgv3x);
 
         animSetXYa.playTogether(imganim1b, imganim2b, imganim3b, imganim4b);
-        animSetXYa.setInterpolator(new AccelerateDecelerateInterpolator());
+        animSetXYa.setInterpolator(new DecelerateInterpolator());
         animSetXYb.playTogether(imganim1a, imganim2a, imganim3a, imganim4a);
-        animSetXYb.setInterpolator(new DecelerateInterpolator());
+        animSetXYb.setInterpolator(new AccelerateDecelerateInterpolator());
         animSetXY.playTogether(animSetXYa, animSetXYb);
         animSetXY.setDuration(300);
         animSetXY.start();
@@ -238,7 +252,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         switch (centerTile){
             case 1:
                 runLayout.setVisibility(View.GONE);
-                connectbtn.setVisibility(View.VISIBLE);
                 centerTile = 2;
                 distanceLayout.setVisibility(View.VISIBLE);
                 imgv4.bringToFront();
@@ -256,7 +269,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             case 3:
                 cardioLayout.setVisibility(View.GONE);
                 centerTile = 1;
-                connectbtn.setVisibility(View.INVISIBLE);
                 runLayout.setVisibility(View.VISIBLE);
                 imgv2.bringToFront();
                 imgv3.bringToFront();
@@ -280,7 +292,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         switch (centerTile){
             case 1:
                 runLayout.setVisibility(View.GONE);
-                connectbtn.setVisibility(View.VISIBLE);
                 centerTile = 3;
                 cardioLayout.setVisibility(View.VISIBLE);
                 imgv4.bringToFront();
@@ -290,7 +301,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             case 2:
                 distanceLayout.setVisibility(View.GONE);
                 centerTile = 1;
-                connectbtn.setVisibility(View.INVISIBLE);
                 runLayout.setVisibility(View.VISIBLE);
                 imgv3.bringToFront();
                 imgv2.bringToFront();
@@ -473,12 +483,27 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         //Time Panel Items
 
         if(v == timepanelTime){
+            try {
+                Date date = sdf.parse(timePanelTimeValue);
+                dateTime.setTime(date);
+            }
+            catch(ParseException e){
+                System.out.println(e);
+            }
             MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog(getContext(), new MyTimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
-                    timePanelTimetv.setText(" "+ String.format("%02d", hourOfDay)+
+                    timePanelTimeValue = (String.format("%02d", hourOfDay)+
                             ":" + String.format("%02d", minute) +
                             ":" + String.format("%02d", seconds));
+                    try {
+                        timePanelTimetv.setText(timePanelTimeValue+" >");
+                        Date date = sdf.parse(timePanelTimeValue);
+                        dateTime.setTime(date);
+                    }
+                    catch (ParseException e){
+                        System.out.println(e);
+                    }
                 }
             }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar. SECOND), true);
             myTimePickerDialog.show();
@@ -538,31 +563,43 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         //Distance Panel
 
         if(v == distancepanelDistance){
-            AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
-            builderSingle.setIcon(R.mipmap.ic_launcher);
-            builderSingle.setTitle("Distance :");
+            RelativeLayout linearLayout = new RelativeLayout(getContext());
+            final NumberPicker aNumberPicker = new NumberPicker(getContext());
+            aNumberPicker.setMaxValue(30);
+            aNumberPicker.setMinValue(2);
+            if(distancePanelDistanceValue!=null)
+                aNumberPicker.setValue(Integer.parseInt(distancePanelDistanceValue));
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("None");
-            for(int i=2; i<=30; i++){
-                arrayAdapter.add(i+"");
-            }
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
+            RelativeLayout.LayoutParams numPicerParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            numPicerParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-            builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            linearLayout.setLayoutParams(params);
+            linearLayout.addView(aNumberPicker,numPicerParams);
 
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String strName = arrayAdapter.getItem(which);
-                    distancePanelDistancetv.setText(strName+"km >");
-                }
-            });
-            builderSingle.show();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle("Distance :");
+            alertDialogBuilder.setView(linearLayout);
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    distancePanelDistanceValue = aNumberPicker.getValue()+"";
+                                    distancePanelDistancetv.setText(aNumberPicker.getValue()+"km >");
+
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
         if(v == distancepanelFeedback){
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
@@ -613,12 +650,27 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.show();
         }
         if(v == distancepanelTime){
+            try {
+                Date date = sdf.parse(distancePanelTimeValue);
+                dateTime.setTime(date);
+            }
+            catch(ParseException e){
+                System.out.println(e);
+            }
             MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog(getContext(), new MyTimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
-                    distancePanelTimetv.setText(" "+ String.format("%02d", hourOfDay)+
+                    distancePanelTimeValue = (String.format("%02d", hourOfDay)+
                             ":" + String.format("%02d", minute) +
                             ":" + String.format("%02d", seconds));
+                    try {
+                        distancePanelTimetv.setText(distancePanelTimeValue+" >");
+                        Date date = sdf.parse(distancePanelTimeValue);
+                        dateTime.setTime(date);
+                    }
+                    catch (ParseException e){
+                        System.out.println(e);
+                    }
                 }
             }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar. SECOND), true);
             myTimePickerDialog.show();
@@ -630,31 +682,43 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         //Run Panel
 
         if(v == runpanelDistance){
-            AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
-            builderSingle.setIcon(R.mipmap.ic_launcher);
-            builderSingle.setTitle("Distance :");
+            RelativeLayout linearLayout = new RelativeLayout(getContext());
+            final NumberPicker aNumberPicker = new NumberPicker(getContext());
+            aNumberPicker.setMaxValue(30);
+            aNumberPicker.setMinValue(2);
+            if(runPanelDistanceValue!=null)
+                aNumberPicker.setValue(Integer.parseInt(runPanelDistanceValue));
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("None");
-            for(int i=2; i<=30; i++){
-                arrayAdapter.add(i+"");
-            }
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
+            RelativeLayout.LayoutParams numPicerParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            numPicerParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-            builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            linearLayout.setLayoutParams(params);
+            linearLayout.addView(aNumberPicker,numPicerParams);
 
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String strName = arrayAdapter.getItem(which);
-                    runPanelDistancetv.setText(strName+"km >");
-                }
-            });
-            builderSingle.show();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle("Distance :");
+            alertDialogBuilder.setView(linearLayout);
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    runPanelDistanceValue = aNumberPicker.getValue()+"";
+                                    runPanelDistancetv.setText(aNumberPicker.getValue()+"km >");
+
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
 
         if(v == runpanelFeedback){
@@ -680,6 +744,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-
+        if(v == runBeginButton){
+            Toast.makeText(getContext(), "Beginning Just Run...", Toast.LENGTH_SHORT).show();
+        }
     }
 }
