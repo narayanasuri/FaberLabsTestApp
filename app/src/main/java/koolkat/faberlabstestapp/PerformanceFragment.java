@@ -90,22 +90,18 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         sdf = new SimpleDateFormat("HH:mm:ss");
 
         tilesRelativeLayout = (RelativeLayout) view.findViewById(R.id.tiles_relative_layout);
-        tilesRelativeLayout.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
-            public void onSwipeTop() {
-            }
-            public void onSwipeRight() {
-                animateDiagonalPan2();
-                centerTile = evaluateCenterLeft(centerTile);
-            }
+        tilesRelativeLayout.setOnTouchListener(new GestureHelper(getContext()){
+
+            @Override
             public void onSwipeLeft() {
                 animateDiagonalPan();
                 centerTile = evaluateCenterRight(centerTile);
             }
-            public void onSwipeBottom() {
-            }
 
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
+            @Override
+            public void onSwipeRight() {
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
             }
         });
 
@@ -169,6 +165,122 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         imgv4.setTag(R.drawable.timebox);
         imgv4.bringToFront();
         connectbtn.setOnClickListener(this);
+
+        imgv1.setOnTouchListener(new GestureHelper(getContext()){
+
+            @Override
+            public void onSwipeLeft() {
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
+            }
+
+            @Override
+            public void onClick() {
+                if(centerTile!=1) {
+                    if(centerTile==2) {
+                        animateDiagonalPan2();
+                        centerTile = evaluateCenterLeft(centerTile);
+                    }
+                    else if(centerTile==3){
+                        animateDiagonalPan();
+                        centerTile = evaluateCenterRight(centerTile);
+                    }
+                }
+            }
+        });
+
+        imgv2.setOnTouchListener(new GestureHelper(getContext()){
+
+            @Override
+            public void onSwipeLeft() {
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
+            }
+
+            @Override
+            public void onClick() {
+                if(centerTile!=2) {
+                    if(centerTile==1) {
+                        animateDiagonalPan();
+                        centerTile = evaluateCenterRight(centerTile);
+                    }
+                    else if(centerTile==4){
+                        animateDiagonalPan2();
+                        centerTile = evaluateCenterLeft(centerTile);
+                    }
+                }
+            }
+        });
+
+        imgv3.setOnTouchListener(new GestureHelper(getContext()){
+
+            @Override
+            public void onSwipeLeft() {
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
+            }
+
+            @Override
+            public void onClick() {
+                if(centerTile!=3) {
+                    if(centerTile==4) {
+                        animateDiagonalPan();
+                        centerTile = evaluateCenterRight(centerTile);
+                    }
+                    else if(centerTile==1){
+                        animateDiagonalPan2();
+                        centerTile = evaluateCenterLeft(centerTile);
+                    }
+                }
+            }
+        });
+
+        imgv4.setOnTouchListener(new GestureHelper(getContext()){
+
+            @Override
+            public void onSwipeLeft() {
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                animateDiagonalPan2();
+                centerTile = evaluateCenterLeft(centerTile);
+            }
+
+            @Override
+            public void onClick() {
+                if(centerTile!=4) {
+                    if(centerTile==3) {
+                        animateDiagonalPan2();
+                        centerTile = evaluateCenterLeft(centerTile);
+                    }
+                    else if(centerTile==2){
+                        animateDiagonalPan();
+                        centerTile = evaluateCenterRight(centerTile);
+                    }
+                }
+            }
+        });
 
         return view;
     }
