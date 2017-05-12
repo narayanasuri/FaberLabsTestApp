@@ -376,17 +376,6 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/layout2b"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text=" ˅ Expand View"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
         </RelativeLayout>
 
     </LinearLayout>

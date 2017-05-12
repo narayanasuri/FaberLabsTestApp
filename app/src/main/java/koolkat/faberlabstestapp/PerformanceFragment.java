@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -53,6 +54,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     RelativeLayout performanceTabLayout;
     LinearLayout trainingTabLayout;
     LinearLayout settingTabLayout;
+    CountDownTimer cdt;
+    Boolean isTimerOn = false;
 
     //Performance Tab
 
@@ -549,6 +552,24 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         if(v == beginbtn){
             n = 10;
+            isTimerOn = true;
+            performanceTabLayout.setVisibility(View.GONE);
+            weightTabLayout.setVisibility(View.VISIBLE);
+            cdt = new CountDownTimer(10000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    weightTimerText.setText(n+"");
+                    n--;
+                    weightTimerProgressBar.setProgress((10-n)*10);
+                }
+                public void onFinish() {
+                    if(isTimerOn) {
+                        weightTabLayout.setVisibility(View.GONE);
+                        trainingTabLayout.setVisibility(View.VISIBLE);
+                    }
+                    else
+                        return;
+                }
+            }.start();
             try {
                 Date date = sdf.parse(timePanelTimeValue);
                 dateTime.setTime(date);
@@ -560,25 +581,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             long y = dateTime.get(Calendar.MINUTE)*60;
             long z = dateTime.get(Calendar.SECOND);
             long progressBarTime = (x+y+z) * 1000;
-            performanceTabLayout.setVisibility(View.GONE);
-            weightTabLayout.setVisibility(View.VISIBLE);
-            ObjectAnimator progressBarAnim = ObjectAnimator.ofInt(weightTimerProgressBar, "progress", 0, 100);
-            progressBarAnim.setDuration(10000);
-            progressBarAnim.setInterpolator(new DecelerateInterpolator());
-            h = new Handler();
-            h.postDelayed(new Runnable(){
-                public void run(){
-                    weightTimerText.setText(n+"");
-                    n--;
-                    h.postDelayed(this, 1000);
-                    if(n==0) {
-                        weightTabLayout.setVisibility(View.GONE);
-                        trainingTabLayout.setVisibility(View.VISIBLE);
-                        return;
-                    }
-                }
-            }, 0);
-            progressBarAnim.start();
         }
 
         if (v == connectbtn) {
@@ -918,10 +920,18 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
 
         if(v==startbtn){
+            n=10;
+            weightTimerProgressBar.setProgress(0);
+            cdt.cancel();
+            isTimerOn = false;
             weightTabLayout.setVisibility(View.GONE);
             trainingTabLayout.setVisibility(View.VISIBLE);
         }
         if(v==cancelbtn){
+            n=10;
+            weightTimerProgressBar.setProgress(0);
+            cdt.cancel();
+            isTimerOn = false;
             weightTabLayout.setVisibility(View.GONE);
             performanceTabLayout.setVisibility(View.VISIBLE);
         }
