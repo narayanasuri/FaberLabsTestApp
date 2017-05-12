@@ -90,19 +90,22 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         sdf = new SimpleDateFormat("HH:mm:ss");
 
         tilesRelativeLayout = (RelativeLayout) view.findViewById(R.id.tiles_relative_layout);
-        tilesRelativeLayout.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() {
-                animateDiagonalPan();
-                centerTile = evaluateCenterRight(centerTile);
+        tilesRelativeLayout.setOnTouchListener(new OnSwipeTouchListener(getContext()) {
+            public void onSwipeTop() {
             }
-            public void onSwipeLeft() {
+            public void onSwipeRight() {
                 animateDiagonalPan2();
                 centerTile = evaluateCenterLeft(centerTile);
             }
+            public void onSwipeLeft() {
+                animateDiagonalPan();
+                centerTile = evaluateCenterRight(centerTile);
+            }
+            public void onSwipeBottom() {
+            }
 
             public boolean onTouch(View v, MotionEvent event) {
-                onClick(v);
-                return true;
+                return gestureDetector.onTouchEvent(event);
             }
         });
 
@@ -166,73 +169,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         imgv4.setTag(R.drawable.timebox);
         imgv4.bringToFront();
         connectbtn.setOnClickListener(this);
-        imgv1.setOnClickListener(this);
-        imgv2.setOnClickListener(this);
-        imgv3.setOnClickListener(this);
-        imgv4.setOnClickListener(this);
-
-        imgv1.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() {
-                animateDiagonalPan();
-                centerTile = evaluateCenterRight(centerTile);
-            }
-            public void onSwipeLeft() {
-                animateDiagonalPan2();
-                centerTile = evaluateCenterLeft(centerTile);
-            }
-
-            public boolean onTouch(View v, MotionEvent event) {
-                onClick(v);
-                return true;
-            }
-        });
-
-        imgv2.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() {
-                animateDiagonalPan();
-                centerTile = evaluateCenterRight(centerTile);
-            }
-            public void onSwipeLeft() {
-                animateDiagonalPan2();
-                centerTile = evaluateCenterLeft(centerTile);
-            }
-
-            public boolean onTouch(View v, MotionEvent event) {
-                onClick(v);
-                return true;
-            }
-        });
-
-        imgv3.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() {
-                animateDiagonalPan();
-                centerTile = evaluateCenterRight(centerTile);
-            }
-            public void onSwipeLeft() {
-                animateDiagonalPan2();
-                centerTile = evaluateCenterLeft(centerTile);
-            }
-
-            public boolean onTouch(View v, MotionEvent event) {
-                onClick(v);
-                return true;
-            }
-        });
-
-        imgv4.setOnTouchListener(new OnSwipeTouchListener(getContext()){
-            public void onSwipeRight() {
-                animateDiagonalPan();
-                centerTile = evaluateCenterRight(centerTile);
-            }
-            public void onSwipeLeft() {
-                animateDiagonalPan2();
-                centerTile = evaluateCenterLeft(centerTile);
-            }
-            public boolean onTouch(View v, MotionEvent event) {
-                onClick(v);
-                return true;
-            }
-        });
 
         return view;
     }
@@ -466,54 +402,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         if (v == connectbtn) {
             Toast.makeText(getContext(), "Connecting...", Toast.LENGTH_SHORT).show();
-        }
-        if (v == imgv1) {
-            if(centerTile!=1) {
-                if(centerTile==2) {
-                    animateDiagonalPan2();
-                    centerTile = evaluateCenterLeft(centerTile);
-                }
-                else if(centerTile==3){
-                    animateDiagonalPan();
-                    centerTile = evaluateCenterRight(centerTile);
-                }
-            }
-        }
-        if (v == imgv2) {
-            if(centerTile!=2) {
-                if(centerTile==1) {
-                    animateDiagonalPan();
-                    centerTile = evaluateCenterRight(centerTile);
-                }
-                else if(centerTile==4){
-                    animateDiagonalPan2();
-                    centerTile = evaluateCenterLeft(centerTile);
-                }
-            }
-        }
-        if (v == imgv3) {
-            if(centerTile!=3) {
-                if(centerTile==4) {
-                    animateDiagonalPan();
-                    centerTile = evaluateCenterRight(centerTile);
-                }
-                else if(centerTile==1){
-                    animateDiagonalPan2();
-                    centerTile = evaluateCenterLeft(centerTile);
-                }
-            }
-        }
-        if (v == imgv4) {
-            if(centerTile!=4) {
-                if(centerTile==3) {
-                    animateDiagonalPan2();
-                    centerTile = evaluateCenterLeft(centerTile);
-                }
-                else if(centerTile==2){
-                    animateDiagonalPan();
-                    centerTile = evaluateCenterRight(centerTile);
-                }
-            }
         }
 
         //Cardio Panel Items
