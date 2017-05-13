@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
     LinearLayout weightTabLayout;
     RelativeLayout performanceTabLayout;
-    LinearLayout trainingTabLayout;
+    ScrollView trainingTabLayout;
     LinearLayout settingTabLayout;
     CountDownTimer cdt;
     Boolean isTimerOn = false;
@@ -116,7 +117,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         weightTabLayout = (LinearLayout) view.findViewById(R.id.weight_tab);
         performanceTabLayout = (RelativeLayout) view.findViewById(R.id.performance_tab);
-        trainingTabLayout = (LinearLayout) view.findViewById(R.id.training_tab);
+        trainingTabLayout = (ScrollView) view.findViewById(R.id.training_tab);
         settingTabLayout = (LinearLayout) view.findViewById(R.id.setting_tab);
 
         //Performance Tab
@@ -553,15 +554,16 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     public void onClick(View v) {
 
         if(v == beginbtn){
+            weightTimerProgressBar.setProgress(0);
             n = 10;
             isTimerOn = true;
             performanceTabLayout.setVisibility(View.GONE);
             weightTabLayout.setVisibility(View.VISIBLE);
-            cdt = new CountDownTimer(10000, 1000) {
+            cdt = new CountDownTimer(12000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     weightTimerText.setText(n+"");
-                    n--;
                     weightTimerProgressBar.setProgress((10-n)*10);
+                    n--;
                 }
                 public void onFinish() {
                     if(isTimerOn) {
@@ -947,6 +949,13 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             settingCondenseImg.setVisibility(View.VISIBLE);
             settingImage2.setVisibility(View.VISIBLE);
             settingImage3.setVisibility(View.VISIBLE);
+            trainingTabLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //replace this line to scroll up or down
+                    trainingTabLayout.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            }, 100L);
         }
 
         if(v == settingCondenseImg){
