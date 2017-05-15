@@ -51,6 +51,8 @@ public class WeightFragment extends Fragment implements View.OnClickListener {
         isTimerOn = true;
         dateTime = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm:ss");
+
+        //Countdown starts
         cdt = new CountDownTimer(12000, 1000) {
             public void onTick(long millisUntilFinished) {
                 weightTimerText.setText(n+"");
@@ -58,10 +60,10 @@ public class WeightFragment extends Fragment implements View.OnClickListener {
                 n--;
             }
             public void onFinish() {
-                if(isTimerOn) {
-                }
-                else
-                    return;
+                //When the countdown timer finishes
+                android.support.v4.app.Fragment childFragment = new TrainingFragment();
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.replace(R.id.weight_tab, childFragment).commit();
             }
         }.start();
         try {

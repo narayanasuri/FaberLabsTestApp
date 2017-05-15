@@ -110,6 +110,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         dateTime = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm:ss");
 
+        //For when user swipes anywhere in the tiles layout
         tilesRelativeLayout = (RelativeLayout) view.findViewById(R.id.tiles_relative_layout);
         tilesRelativeLayout.setOnTouchListener(new GestureHelper(getContext()){
 
@@ -133,7 +134,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         timeLayout = (LinearLayout) view.findViewById(R.id.time_panel);
         distanceLayout = (LinearLayout) view.findViewById(R.id.distance_panel);
 
-
+        //cardio panel views
         cardiopanelType = (RelativeLayout) view.findViewById(R.id.cardiopanel_type);
         cardiopanelType.setOnClickListener(this);
         cardioPanelTypetv = (TextView) view.findViewById(R.id.cardiopanel_typetv);
@@ -143,6 +144,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         cardiopanelLocation.setOnClickListener(this);
         cardioPanelLocationtv = (TextView) view.findViewById(R.id.cardiopanel_locationtv);
 
+        //time panel views
         timepanelTime = (RelativeLayout) view.findViewById(R.id.timepanel_time);
         timepanelTime.setOnClickListener(this);
         timePanelTimetv = (TextView) view.findViewById(R.id.timepanel_timetv);
@@ -152,6 +154,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         timepanelLocation.setOnClickListener(this);
         timePanelLocationtv = (TextView) view.findViewById(R.id.timepanel_locationtv);
 
+        //distance panel views
         distancepanelTime = (RelativeLayout) view.findViewById(R.id.distancepanel_time);
         distancepanelTime.setOnClickListener(this);
         distancePanelTimetv = (TextView) view.findViewById(R.id.distancepanel_timetv);
@@ -164,6 +167,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         distancepanelLocation.setOnClickListener(this);
         distancePanelLocationtv = (TextView) view.findViewById(R.id.distancepanel_locationtv);
 
+        //run panel views
         runpanelDistance = (RelativeLayout) view.findViewById(R.id.runpanel_distance);
         runpanelDistance.setOnClickListener(this);
         runPanelDistancetv = (TextView) view.findViewById(R.id.runpanel_distancetv);
@@ -187,8 +191,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         imgv4.bringToFront();
         connectbtn.setOnClickListener(this);
 
+        //For when user swipes on top of the tiles
         imgv1.setOnTouchListener(new GestureHelper(getContext()){
-
             @Override
             public void onSwipeLeft() {
                 animateDiagonalPan();
@@ -306,6 +310,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         return view;
     }
 
+    //For Clock-wise Animation
     private void animateDiagonalPan() {
 
         AnimatorSet animSetXY = new AnimatorSet();
@@ -368,6 +373,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         }
     }
 
+    //For counter-clockwise animation
     private void animateDiagonalPan2() {
         AnimatorSet animSetXY = new AnimatorSet();
         AnimatorSet animSetXYa = new AnimatorSet();
@@ -429,6 +435,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         }
     }
 
+    //Evaluates and returns the center after a clockwise animation
     private int evaluateCenterRight(int centerTile){
         //clockwise
         //integer corresponds to the respective imageview
@@ -469,6 +476,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         return centerTile;
     }
 
+    //Evaluates and returns center after counter-clockwise animation
     private int evaluateCenterLeft(int centerTile){
         //anti-clockwise
         //integer corresponds to the respective imageview
