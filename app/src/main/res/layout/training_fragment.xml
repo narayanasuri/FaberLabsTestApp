@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/training_framelayout">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/training_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/backgroundimg">
 
         <LinearLayout
-            android:id="@+id/training_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -21,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:text="01:15:12"
+                android:text="00:00:00"
                 android:textColor="@android:color/black"
                 android:textSize="80sp" />
 
@@ -34,7 +35,7 @@
                 android:indeterminate="false"
                 android:maxHeight="10dip"
                 android:minHeight="10dip"
-                android:progress="50"
+                android:progress="100"
                 android:progressDrawable="@drawable/greenprogress" />
 
             <RelativeLayout
@@ -167,50 +168,43 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/training_tab_expandtv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:id="@+id/training_tab_expandtv"
                 android:text=" ˅ Expand View"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="17sp"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
-
-        <!--Settings Tab-->
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setting_tab"
-            android:visibility="gone"
-            android:background="@drawable/backgroundimg"
-            android:orientation="vertical">
+            <!--Settings Tab-->
 
             <ImageView
+                android:id="@+id/condense_img"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:id="@+id/condense_img"
                 android:layout_weight="0.3"
-                android:src="@drawable/duration" />
+                android:src="@drawable/duration"
+                android:visibility="gone" />
 
             <ImageView
+                android:id="@+id/setting_img2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
-                android:src="@drawable/map" />
+                android:src="@drawable/map"
+                android:visibility="gone" />
 
             <ImageView
+                android:id="@+id/setting_img3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
-                android:src="@drawable/pace" />
+                android:src="@drawable/pace"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</FrameLayout>

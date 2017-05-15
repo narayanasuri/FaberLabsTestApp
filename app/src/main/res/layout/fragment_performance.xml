@@ -1,836 +1,479 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--Training Tab-->
+    <!--Performance Tab-->
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/backgroundimg"
-        android:id="@+id/training_tab"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        android:id="@+id/performance_framelayout">
+
+        <RelativeLayout
+            android:id="@+id/performance_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/backgroundimg"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/connectbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/connectbtn"
+                android:text="Connect to devices"
+                android:textColor="@android:color/white" />
 
             <LinearLayout
+                android:id="@+id/tiles_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:text="01:15:12"
-                    android:textColor="@android:color/black"
-                    android:textSize="80sp" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:indeterminate="false"
-                    android:maxHeight="10dip"
-                    android:minHeight="10dip"
-                    android:progress="50"
-                    android:progressDrawable="@drawable/greenprogress" />
+                android:layout_below="@id/connectbtn"
+                android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/tiles_relative_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:text="Distance"
-                        android:textColor="@android:color/black"
-                        android:textSize="19sp" />
+                    <ImageView
+                        android:id="@+id/imgv1"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/runbox" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <ImageView
+                        android:id="@+id/imgv2"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="40dp"
+                        android:src="@drawable/distancebox" />
+
+                    <ImageView
+                        android:id="@+id/imgv3"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_alignParentEnd="true"
-                        android:padding="12dp"
-                        android:text="3km"
-                        android:textColor="@android:color/black"
-                        android:textSize="19sp" />
+                        android:layout_marginTop="40dp"
+                        android:src="@drawable/cardiobox" />
+
+                    <ImageView
+                        android:id="@+id/imgv4"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="70dp"
+                        android:src="@drawable/timebox" />
 
                 </RelativeLayout>
 
+            </LinearLayout>
+
+            <!--Run Panel-->
+
+            <LinearLayout
+                android:id="@+id/run_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tiles_layout"
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <RelativeLayout
+                    android:id="@+id/runpanel_distance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:text="Type"
+                        android:padding="8dp"
+                        android:text="Distance"
                         android:textColor="@android:color/black"
-                        android:textSize="19sp" />
+                        android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/runpanel_distancetv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:padding="12dp"
-                        android:text="Cardio"
+                        android:padding="8dp"
+                        android:text="18km >"
                         android:textColor="@android:color/black"
-                        android:textSize="19sp" />
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
 
-                <Button
-                    android:id="@+id/endsessionbtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/beginbtn"
-                    android:text="End Session"
-                    android:textColor="@android:color/white"
-                    android:textSize="19dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
 
                 <RelativeLayout
+                    android:id="@+id/runpanel_feedback"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:text="- -"
+                        android:padding="8dp"
+                        android:text="Feedback Options"
                         android:textColor="@android:color/black"
-                        android:textSize="30sp" />
+                        android:textSize="16sp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:padding="12dp"
-                        android:text="1.2"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp" />
-
-                    <TextView
+                        android:id="@+id/runpanel_feedbacktv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:padding="12dp"
-                        android:text="- -"
+                        android:padding="8dp"
+                        android:text=">"
                         android:textColor="@android:color/black"
-                        android:textSize="30sp" />
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:text="Pace"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:padding="12dp"
-                        android:text="Miles"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:padding="12dp"
-                        android:text="Steps"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/training_tab_expandtv"
-                    android:text=" ˅ Expand View"
-                    android:textColor="@android:color/holo_red_light"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <!--Settings Tab-->
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:visibility="gone"
-                    android:id="@+id/condense_img"
-                    android:layout_weight="0.3"
-                    android:src="@drawable/duration" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:visibility="gone"
-                    android:id="@+id/setting_img2"
-                    android:layout_weight="0.3"
-                    android:src="@drawable/map" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:visibility="gone"
-                    android:id="@+id/setting_img3"
-                    android:layout_weight="0.3"
-                    android:src="@drawable/pace" />
 
             </LinearLayout>
 
-    </ScrollView>
-
-
-    <!--Weight Tab-->
-
-    <LinearLayout
-        android:id="@+id/weight_tab"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/backgroundimg"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/progressbar_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
-
-                <ProgressBar
-                    android:id="@+id/progressBar2"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:layout_centerHorizontal="true"
-                    android:indeterminate="false"
-                    android:progress="1"
-                    android:progressDrawable="@drawable/circular_progressbar" />
-
-                <TextView
-                    android:id="@+id/weight_tab_timertext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="#00000000"
-                    android:gravity="center"
-                    android:text="10"
-                    android:textColor="@android:color/black"
-                    android:textSize="70sp" />
-            </RelativeLayout>
+            <!--Distance Panel-->
 
             <LinearLayout
-                android:id="@+id/startcancelbtnlayout"
+                android:id="@+id/distance_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/progressbar_layout"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:layout_below="@id/tiles_layout"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <Button
-                    android:id="@+id/startbtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/beginbtn"
-                    android:text="START"
-                    android:textColor="@android:color/white"
-                    android:textSize="17sp" />
+                <RelativeLayout
+                    android:id="@+id/distancepanel_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/cancel_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.5"
-                    android:background="@drawable/cancelbtn"
-                    android:text="CANCEL"
-                    android:textColor="@android:color/white"
-                    android:textSize="17sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Distance"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/distancepanel_distancetv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="18km >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/distancepanel_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/distancepanel_feedback"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Feedback Options"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text=">"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/distancepanel_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Location"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/distancepanel_locationtv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="Outdoor >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/distancepanel_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Time"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/distancepanel_timetv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="00:14:00 >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout1b"
+            <!--Cardio Panel-->
+
+            <LinearLayout
+                android:id="@+id/cardio_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/startcancelbtnlayout"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:layout_below="@id/tiles_layout"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text="- -"
-                    android:textColor="@android:color/black"
-                    android:textSize="30sp" />
+                <RelativeLayout
+                    android:id="@+id/cardiopanel_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:padding="12dp"
-                    android:text="1.2"
-                    android:textColor="@android:color/black"
-                    android:textSize="30sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Type"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="12dp"
-                    android:text="- -"
-                    android:textColor="@android:color/black"
-                    android:textSize="30sp" />
+                    <TextView
+                        android:id="@+id/cardiopanel_typetv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="Endurance >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/layout2b"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/cardiopanel_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Feedback Options"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text=">"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/cardiopanel_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Location"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/cardiopanel_locationtv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="Indoor >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--Time Panel-->
+
+            <LinearLayout
+                android:id="@+id/time_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/layout1b"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:layout_below="@id/tiles_layout"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text="Pace"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                <RelativeLayout
+                    android:id="@+id/timepanel_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:padding="12dp"
-                    android:text="Miles"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Time"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="12dp"
-                    android:text="Steps"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/timepanel_timetv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="00:30:12 >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
-            </RelativeLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/timepanel_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Feedback Options"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/timepanel_feedbacktv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text=">"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/timepanel_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Location"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/timepanel_locationtv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:padding="8dp"
+                        android:text="Outdoor >"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/beginbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/beginbtn"
+                android:text="Begin"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
-    </LinearLayout>
-
-
-    <!--Performance Tab-->
-
-
-    <RelativeLayout
-        android:id="@+id/performance_tab"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/backgroundimg"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <Button
-            android:id="@+id/connectbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/connectbtn"
-            android:text="Connect to devices"
-            android:textColor="@android:color/white" />
-
-        <LinearLayout
-            android:id="@+id/tiles_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/connectbtn"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/tiles_relative_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:id="@+id/imgv1"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/runbox" />
-
-                <ImageView
-                    android:id="@+id/imgv2"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="40dp"
-                    android:src="@drawable/distancebox" />
-
-                <ImageView
-                    android:id="@+id/imgv3"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="40dp"
-                    android:src="@drawable/cardiobox" />
-
-                <ImageView
-                    android:id="@+id/imgv4"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="70dp"
-                    android:src="@drawable/timebox" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <!--Run Panel-->
-
-        <LinearLayout
-            android:id="@+id/run_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tiles_layout"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:id="@+id/runpanel_distance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Distance"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/runpanel_distancetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="18km >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/runpanel_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Feedback Options"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/runpanel_feedbacktv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text=">"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <!--Distance Panel-->
-
-        <LinearLayout
-            android:id="@+id/distance_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tiles_layout"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_distance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Distance"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/distancepanel_distancetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="18km >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/distancepanel_feedback"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Feedback Options"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text=">"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Location"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/distancepanel_locationtv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="Outdoor >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/distancepanel_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Time"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/distancepanel_timetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="00:14:00 >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <!--Cardio Panel-->
-
-        <LinearLayout
-            android:id="@+id/cardio_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tiles_layout"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:id="@+id/cardiopanel_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Type"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/cardiopanel_typetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="Endurance >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/cardiopanel_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Feedback Options"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text=">"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/cardiopanel_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Location"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/cardiopanel_locationtv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="Indoor >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <!--Time Panel-->
-
-        <LinearLayout
-            android:id="@+id/time_panel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tiles_layout"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/timepanel_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Time"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/timepanel_timetv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="00:30:12 >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/timepanel_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Feedback Options"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/timepanel_feedbacktv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text=">"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
-
-            <RelativeLayout
-                android:id="@+id/timepanel_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Location"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/timepanel_locationtv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="8dp"
-                    android:text="Outdoor >"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/beginbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/beginbtn"
-            android:text="Begin"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
-
-    </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,15 +53,6 @@ import java.util.Date;
 
 public class PerformanceFragment extends android.support.v4.app.Fragment implements View.OnClickListener, MyTimePickerDialog.OnTimeSetListener {
 
-    LinearLayout weightTabLayout;
-    RelativeLayout performanceTabLayout;
-    ScrollView trainingTabLayout;
-    LinearLayout settingTabLayout;
-    CountDownTimer cdt;
-    Boolean isTimerOn = false;
-
-    //Performance Tab
-
     Button connectbtn, beginbtn;
     ImageView imgv1, imgv2, imgv3, imgv4;
     int centerTile;
@@ -81,30 +74,29 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     private String[] cardioPanelLocationArray = {"Indoor", "Outdoor"};
     private int indexCardioPanelLocation=0;
 
+    private String[] cardioPanelFeedbackArray = {"None"};
+    private int indexCardioPanelFeedback=0;
+
     private String[] timePanelLocationArray = {"Indoor", "Outdoor"};
     private int indexTimePanelLocation=1;
+
+    private String[] timePanelFeedbackArray = {"None"};
+    private int indexTimePanelFeedback=0;
 
     private String[] distancePanelLocationArray = {"Indoor", "Outdoor"};
     private int indexDistancePanelLocation=1;
 
-    String cardioPanelTypeValue="Endurance", cardioPanelLocationValue="Indoor";
-    String timePanelTimeValue="00:30:12", timePanelLocationValue="Outdoor";
-    String distancePanelDistanceValue="18", distancePanelLocationValue="Outdoor", distancePanelTimeValue="00:14:00";
-    String runPanelDistanceValue="18";
+    private String[] distancePanelFeedbackArray = {"None"};
+    private int indexDistancePanelFeedback=0;
 
-    //Weight Tab
+    private String[] runPanelFeedbackArray = {"None"};
+    private int indexRunPanelFeedback=0;
 
-    Button startbtn, cancelbtn;
-    TextView weightTimerText;
-    ProgressBar weightTimerProgressBar;
-    int n;
-    Handler h;
+    static String cardioPanelTypeValue="Endurance", cardioPanelLocationValue="Indoor";
+    static String timePanelTimeValue="00:30:12", timePanelLocationValue="Outdoor";
+    static String distancePanelDistanceValue="18", distancePanelLocationValue="Outdoor", distancePanelTimeValue="00:14:00";
+    static String runPanelDistanceValue="18";
 
-    //Training Tab
-    Button endSessionButton;
-    TextView trainingTabExpandtv;
-
-    ImageView settingCondenseImg, settingImage2, settingImage3;
 
     public static PerformanceFragment newInstance() {
         return new PerformanceFragment();
@@ -114,13 +106,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         centerTile = 4;
         View view = inflater.inflate(R.layout.fragment_performance, container, false);
-
-        weightTabLayout = (LinearLayout) view.findViewById(R.id.weight_tab);
-        performanceTabLayout = (RelativeLayout) view.findViewById(R.id.performance_tab);
-        trainingTabLayout = (ScrollView) view.findViewById(R.id.training_tab);
-        settingTabLayout = (LinearLayout) view.findViewById(R.id.setting_tab);
-
-        //Performance Tab
 
         dateTime = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm:ss");
@@ -317,27 +302,6 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                 }
             }
         });
-
-
-        //Weight Tab
-
-        startbtn = (Button) view.findViewById(R.id.startbtn);
-        cancelbtn = (Button) view.findViewById(R.id.cancel_btn);
-        startbtn.setOnClickListener(this);
-        cancelbtn.setOnClickListener(this);
-        weightTimerText = (TextView) view.findViewById(R.id.weight_tab_timertext);
-        weightTimerProgressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
-
-        //Training Tab
-        endSessionButton = (Button) view.findViewById(R.id.endsessionbtn);
-        endSessionButton.setOnClickListener(this);
-        trainingTabExpandtv = (TextView) view.findViewById(R.id.training_tab_expandtv);
-        trainingTabExpandtv.setOnClickListener(this);
-
-        settingCondenseImg = (ImageView) view.findViewById(R.id.condense_img);
-        settingCondenseImg.setOnClickListener(this);
-        settingImage2 = (ImageView) view.findViewById(R.id.setting_img2);
-        settingImage3 = (ImageView) view.findViewById(R.id.setting_img3);
 
         return view;
     }
@@ -554,37 +518,9 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     public void onClick(View v) {
 
         if(v == beginbtn){
-            weightTimerProgressBar.setProgress(0);
-            n = 10;
-            isTimerOn = true;
-            performanceTabLayout.setVisibility(View.GONE);
-            weightTabLayout.setVisibility(View.VISIBLE);
-            cdt = new CountDownTimer(12000, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    weightTimerText.setText(n+"");
-                    weightTimerProgressBar.setProgress((10-n)*10);
-                    n--;
-                }
-                public void onFinish() {
-                    if(isTimerOn) {
-                        weightTabLayout.setVisibility(View.GONE);
-                        trainingTabLayout.setVisibility(View.VISIBLE);
-                    }
-                    else
-                        return;
-                }
-            }.start();
-            try {
-                Date date = sdf.parse(timePanelTimeValue);
-                dateTime.setTime(date);
-            }
-            catch(ParseException e){
-                System.out.println(e);
-            }
-            long x = dateTime.get(Calendar.HOUR_OF_DAY)*60*60;
-            long y = dateTime.get(Calendar.MINUTE)*60;
-            long z = dateTime.get(Calendar.SECOND);
-            long progressBarTime = (x+y+z) * 1000;
+            android.support.v4.app.Fragment childFragment = new WeightFragment();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.performance_framelayout, childFragment).commit();
         }
 
         if (v == connectbtn) {
@@ -622,20 +558,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("None");
+            builderSingle.setSingleChoiceItems(cardioPanelFeedbackArray, indexCardioPanelFeedback, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexCardioPanelFeedback = which;
+                    //cardioPanelLocationValue = cardioPanelLocationArray[which];
+                    //String strName = cardioPanelLocationArray[which];
+                    //cardioPanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                }
-            });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
                 }
             });
             builderSingle.show();
@@ -722,20 +659,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("None");
+            builderSingle.setSingleChoiceItems(timePanelFeedbackArray, indexTimePanelFeedback, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexTimePanelFeedback = which;
+                    //cardioPanelLocationValue = cardioPanelLocationArray[which];
+                    //String strName = cardioPanelLocationArray[which];
+                    //cardioPanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                }
-            });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
                 }
             });
             builderSingle.show();
@@ -787,20 +725,21 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("None");
+            builderSingle.setSingleChoiceItems(distancePanelFeedbackArray, indexDistancePanelFeedback, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexDistancePanelFeedback = which;
+                    //cardioPanelLocationValue = cardioPanelLocationArray[which];
+                    //String strName = cardioPanelLocationArray[which];
+                    //cardioPanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                }
-            });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
                 }
             });
             builderSingle.show();
@@ -903,8 +842,16 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("None");
+            builderSingle.setSingleChoiceItems(runPanelFeedbackArray, indexRunPanelFeedback, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    indexRunPanelFeedback = which;
+                    //cardioPanelLocationValue = cardioPanelLocationArray[which];
+                    //String strName = cardioPanelLocationArray[which];
+                    //cardioPanelLocationtv.setText(strName+" >");
+                    dialog.dismiss();
+                }
+            });
 
             builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -912,57 +859,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     dialog.dismiss();
                 }
             });
-
-            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
             builderSingle.show();
-        }
-
-
-        if(v==startbtn){
-            n=10;
-            weightTimerProgressBar.setProgress(0);
-            cdt.cancel();
-            isTimerOn = false;
-            weightTabLayout.setVisibility(View.GONE);
-            trainingTabLayout.setVisibility(View.VISIBLE);
-        }
-        if(v==cancelbtn){
-            n=10;
-            weightTimerProgressBar.setProgress(0);
-            cdt.cancel();
-            isTimerOn = false;
-            weightTabLayout.setVisibility(View.GONE);
-            performanceTabLayout.setVisibility(View.VISIBLE);
-        }
-        if(v == endSessionButton){
-            trainingTabLayout.setVisibility(View.GONE);
-            performanceTabLayout.setVisibility(View.VISIBLE);
-        }
-
-        if(v == trainingTabExpandtv){
-            trainingTabExpandtv.setVisibility(View.GONE);
-            settingCondenseImg.setVisibility(View.VISIBLE);
-            settingImage2.setVisibility(View.VISIBLE);
-            settingImage3.setVisibility(View.VISIBLE);
-            trainingTabLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //replace this line to scroll up or down
-                    trainingTabLayout.fullScroll(ScrollView.FOCUS_DOWN);
-                }
-            }, 100L);
-        }
-
-        if(v == settingCondenseImg){
-            trainingTabExpandtv.setVisibility(View.VISIBLE);
-            settingCondenseImg.setVisibility(View.GONE);
-            settingImage2.setVisibility(View.GONE);
-            settingImage3.setVisibility(View.GONE);
         }
 
     }
