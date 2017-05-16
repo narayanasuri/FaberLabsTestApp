@@ -3,45 +3,24 @@ package koolkat.faberlabstestapp;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.CycleInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.PathInterpolator;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,10 +30,10 @@ import java.util.Date;
  * Created by Admin on 4/29/2017.
  */
 
-public class PerformanceFragment extends android.support.v4.app.Fragment implements View.OnClickListener, MyTimePickerDialog.OnTimeSetListener {
+public class TilesFragment extends android.support.v4.app.Fragment implements View.OnClickListener, MyTimePickerDialog.OnTimeSetListener {
 
-    Button connectbtn, beginbtn;
-    ImageView imgv1, imgv2, imgv3, imgv4;
+    Button tilesConnectButton, tilesBeginButton;
+    ImageView runTileImageView, distanceTileImageView, cardioTileImageView, timeTileImageView;
     int centerTile;
     LinearLayout runLayout, cardioLayout, timeLayout, distanceLayout, tilesLayout;
     RelativeLayout cardiopanelType, cardiopanelFeedback, cardiopanelLocation, tilesRelativeLayout;
@@ -69,60 +48,60 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     SimpleDateFormat sdf;
 
     private String[] cardioPanelTypeArray = {"Endurance", "Strength"};
-    private int indexCardioPanelType=0;
+    private int indexCardioPanelType = 0;
 
     private String[] cardioPanelLocationArray = {"Indoor", "Outdoor"};
-    private int indexCardioPanelLocation=0;
+    private int indexCardioPanelLocation = 0;
 
     private String[] cardioPanelFeedbackArray = {"None"};
-    private int indexCardioPanelFeedback=0;
+    private int indexCardioPanelFeedback = 0;
 
     private String[] timePanelLocationArray = {"Indoor", "Outdoor"};
-    private int indexTimePanelLocation=1;
+    private int indexTimePanelLocation = 1;
 
     private String[] timePanelFeedbackArray = {"None"};
-    private int indexTimePanelFeedback=0;
+    private int indexTimePanelFeedback = 0;
 
     private String[] distancePanelLocationArray = {"Indoor", "Outdoor"};
-    private int indexDistancePanelLocation=1;
+    private int indexDistancePanelLocation = 1;
 
     private String[] distancePanelFeedbackArray = {"None"};
-    private int indexDistancePanelFeedback=0;
+    private int indexDistancePanelFeedback = 0;
 
     private String[] runPanelFeedbackArray = {"None"};
-    private int indexRunPanelFeedback=0;
+    private int indexRunPanelFeedback = 0;
 
-    static String cardioPanelTypeValue="Endurance", cardioPanelLocationValue="Indoor";
-    static String timePanelTimeValue="00:30:12", timePanelLocationValue="Outdoor";
-    static String distancePanelDistanceValue="18", distancePanelLocationValue="Outdoor", distancePanelTimeValue="00:14:00";
-    static String runPanelDistanceValue="18";
+    static String cardioPanelTypeValue = "Endurance", cardioPanelLocationValue = "Indoor";
+    static String timePanelTimeValue = "00:30:12", timePanelLocationValue = "Outdoor";
+    static String distancePanelDistanceValue = "18", distancePanelLocationValue = "Outdoor", distancePanelTimeValue = "00:14:00";
+    static String runPanelDistanceValue = "18";
 
 
-    public static PerformanceFragment newInstance() {
-        return new PerformanceFragment();
+    public static TilesFragment newInstance() {
+        return new TilesFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         centerTile = 4;
-        View view = inflater.inflate(R.layout.fragment_performance, container, false);
+        View view = inflater.inflate(R.layout.fragment_tiles, container, false);
 
         dateTime = Calendar.getInstance();
         sdf = new SimpleDateFormat("HH:mm:ss");
 
         //For when user swipes anywhere in the tiles layout
         tilesRelativeLayout = (RelativeLayout) view.findViewById(R.id.tiles_relative_layout);
-        tilesRelativeLayout.setOnTouchListener(new GestureHelper(getContext()){
+        tilesRelativeLayout.setOnTouchListener(new GestureHelper(getContext()) {
 
             @Override
             public void onSwipeLeft() {
-                animateDiagonalPan();
+                animateRight();
                 centerTile = evaluateCenterRight(centerTile);
             }
 
             @Override
             public void onSwipeRight() {
-                animateDiagonalPan2();
+                animateLeft();
                 centerTile = evaluateCenterLeft(centerTile);
             }
         });
@@ -175,132 +154,132 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
         runpanelFeedback.setOnClickListener(this);
         runPanelFeedbacktv = (TextView) view.findViewById(R.id.runpanel_feedbacktv);
 
-        connectbtn = (Button) view.findViewById(R.id.connectbtn);
-        beginbtn = (Button) view.findViewById(R.id.beginbtn);
-        beginbtn.setOnClickListener(this);
-        imgv1 = (ImageView) view.findViewById(R.id.imgv1);
-        imgv1.setTag(R.drawable.runbox);
-        imgv2 = (ImageView) view.findViewById(R.id.imgv2);
-        imgv2.setTag(R.drawable.distancebox);
-        imgv2.bringToFront();
-        imgv3 = (ImageView) view.findViewById(R.id.imgv3);
-        imgv3.setTag(R.drawable.cardiobox);
-        imgv3.bringToFront();
-        imgv4 = (ImageView) view.findViewById(R.id.imgv4);
-        imgv4.setTag(R.drawable.timebox);
-        imgv4.bringToFront();
-        connectbtn.setOnClickListener(this);
+        tilesConnectButton = (Button) view.findViewById(R.id.tiles_connect_button);
+        tilesBeginButton = (Button) view.findViewById(R.id.tiles_begin_button);
+        tilesBeginButton.setOnClickListener(this);
+        //first image
+        runTileImageView = (ImageView) view.findViewById(R.id.run_tile_imageview);
+        runTileImageView.setTag(R.drawable.runbox);
+        //second image
+        distanceTileImageView = (ImageView) view.findViewById(R.id.distance_tile_imageview);
+        distanceTileImageView.setTag(R.drawable.distancebox);
+        distanceTileImageView.bringToFront();
+        //third image
+        cardioTileImageView = (ImageView) view.findViewById(R.id.cardio_tile_imageview);
+        cardioTileImageView.setTag(R.drawable.cardiobox);
+        cardioTileImageView.bringToFront();
+        //fourth image
+        timeTileImageView = (ImageView) view.findViewById(R.id.time_tile_imageview);
+        timeTileImageView.setTag(R.drawable.timebox);
+        timeTileImageView.bringToFront();
+        tilesConnectButton.setOnClickListener(this);
 
         //For when user swipes on top of the tiles
-        imgv1.setOnTouchListener(new GestureHelper(getContext()){
+        runTileImageView.setOnTouchListener(new GestureHelper(getContext()) {
             @Override
             public void onSwipeLeft() {
-                animateDiagonalPan();
+                animateRight();
                 centerTile = evaluateCenterRight(centerTile);
             }
 
             @Override
             public void onSwipeRight() {
-                animateDiagonalPan2();
+                animateLeft();
                 centerTile = evaluateCenterLeft(centerTile);
             }
 
             @Override
             public void onClick() {
-                if(centerTile!=1) {
-                    if(centerTile==2) {
-                        animateDiagonalPan2();
+                if (centerTile != 1) {
+                    if (centerTile == 2) {
+                        animateLeft();
                         centerTile = evaluateCenterLeft(centerTile);
-                    }
-                    else if(centerTile==3){
-                        animateDiagonalPan();
+                    } else if (centerTile == 3) {
+                        animateRight();
                         centerTile = evaluateCenterRight(centerTile);
                     }
                 }
             }
         });
 
-        imgv2.setOnTouchListener(new GestureHelper(getContext()){
+        distanceTileImageView.setOnTouchListener(new GestureHelper(getContext()) {
 
             @Override
             public void onSwipeLeft() {
-                animateDiagonalPan();
+                animateRight();
                 centerTile = evaluateCenterRight(centerTile);
             }
 
             @Override
             public void onSwipeRight() {
-                animateDiagonalPan2();
+                animateLeft();
                 centerTile = evaluateCenterLeft(centerTile);
             }
 
             @Override
             public void onClick() {
-                if(centerTile!=2) {
-                    if(centerTile==1) {
-                        animateDiagonalPan();
+                if (centerTile != 2) {
+                    if (centerTile == 1) {
+                        animateRight();
                         centerTile = evaluateCenterRight(centerTile);
-                    }
-                    else if(centerTile==4){
-                        animateDiagonalPan2();
+                    } else if (centerTile == 4) {
+                        animateLeft();
                         centerTile = evaluateCenterLeft(centerTile);
                     }
                 }
             }
         });
 
-        imgv3.setOnTouchListener(new GestureHelper(getContext()){
+        cardioTileImageView.setOnTouchListener(new GestureHelper(getContext()) {
 
             @Override
             public void onSwipeLeft() {
-                animateDiagonalPan();
+                animateRight();
                 centerTile = evaluateCenterRight(centerTile);
             }
 
             @Override
             public void onSwipeRight() {
-                animateDiagonalPan2();
+                animateLeft();
                 centerTile = evaluateCenterLeft(centerTile);
             }
 
             @Override
             public void onClick() {
-                if(centerTile!=3) {
-                    if(centerTile==4) {
-                        animateDiagonalPan();
+                if (centerTile != 3) {
+                    if (centerTile == 4) {
+                        animateRight();
                         centerTile = evaluateCenterRight(centerTile);
-                    }
-                    else if(centerTile==1){
-                        animateDiagonalPan2();
+                    } else if (centerTile == 1) {
+                        animateLeft();
                         centerTile = evaluateCenterLeft(centerTile);
                     }
                 }
             }
         });
 
-        imgv4.setOnTouchListener(new GestureHelper(getContext()){
+        timeTileImageView.setOnTouchListener(new GestureHelper(getContext()) {
 
             @Override
             public void onSwipeLeft() {
-                animateDiagonalPan();
+                animateRight();
                 centerTile = evaluateCenterRight(centerTile);
             }
 
             @Override
             public void onSwipeRight() {
-                animateDiagonalPan2();
+                animateLeft();
                 centerTile = evaluateCenterLeft(centerTile);
             }
 
             @Override
             public void onClick() {
-                if(centerTile!=4) {
-                    if(centerTile==3) {
-                        animateDiagonalPan2();
+                if (centerTile != 4) {
+                    if (centerTile == 3) {
+                        animateLeft();
                         centerTile = evaluateCenterLeft(centerTile);
-                    }
-                    else if(centerTile==2){
-                        animateDiagonalPan();
+                    } else if (centerTile == 2) {
+                        animateRight();
                         centerTile = evaluateCenterRight(centerTile);
                     }
                 }
@@ -311,49 +290,49 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     }
 
     //For Clock-wise Animation
-    private void animateDiagonalPan() {
+    private void animateRight() {
 
         AnimatorSet animSetXY = new AnimatorSet();
         AnimatorSet animSetXYa = new AnimatorSet();
         AnimatorSet animSetXYb = new AnimatorSet();
 
-        float imgv1x = imgv1.getX();
-        float imgv1y = imgv1.getY();
+        float imgv1x = runTileImageView.getX();
+        float imgv1y = runTileImageView.getY();
 
-        float imgv2x = imgv2.getX();
-        float imgv2y = imgv2.getY();
+        float imgv2x = distanceTileImageView.getX();
+        float imgv2y = distanceTileImageView.getY();
 
-        float imgv3x = imgv3.getX();
-        float imgv3y = imgv3.getY();
+        float imgv3x = cardioTileImageView.getX();
+        float imgv3y = cardioTileImageView.getY();
 
-        float imgv4x = imgv4.getX();
-        float imgv4y = imgv4.getY();
+        float imgv4x = timeTileImageView.getX();
+        float imgv4y = timeTileImageView.getY();
 
-        ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
-                "y", imgv1.getY(), imgv3y);
+        ObjectAnimator imganim1a = ObjectAnimator.ofFloat(runTileImageView,
+                "y", runTileImageView.getY(), imgv3y);
 
-        ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
-                "x", imgv1.getX(), imgv3x);
+        ObjectAnimator imganim1b = ObjectAnimator.ofFloat(runTileImageView,
+                "x", runTileImageView.getX(), imgv3x);
 
-        ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
-                "y", imgv2.getY(), imgv1y);
+        ObjectAnimator imganim2a = ObjectAnimator.ofFloat(distanceTileImageView,
+                "y", distanceTileImageView.getY(), imgv1y);
 
-        ObjectAnimator imganim2b = ObjectAnimator.ofFloat(imgv2,
-                "x", imgv2.getX(), imgv1x);
+        ObjectAnimator imganim2b = ObjectAnimator.ofFloat(distanceTileImageView,
+                "x", distanceTileImageView.getX(), imgv1x);
 
-        ObjectAnimator imganim3a = ObjectAnimator.ofFloat(imgv3,
-                "y", imgv3.getY(), imgv4y);
+        ObjectAnimator imganim3a = ObjectAnimator.ofFloat(cardioTileImageView,
+                "y", cardioTileImageView.getY(), imgv4y);
 
-        ObjectAnimator imganim3b = ObjectAnimator.ofFloat(imgv3,
-                "x", imgv3.getX(), imgv4x);
+        ObjectAnimator imganim3b = ObjectAnimator.ofFloat(cardioTileImageView,
+                "x", cardioTileImageView.getX(), imgv4x);
 
-        ObjectAnimator imganim4a = ObjectAnimator.ofFloat(imgv4,
-                "y", imgv4.getY(), imgv2y);
+        ObjectAnimator imganim4a = ObjectAnimator.ofFloat(timeTileImageView,
+                "y", timeTileImageView.getY(), imgv2y);
 
-        ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
-                "x", imgv4.getX(), imgv2x);
+        ObjectAnimator imganim4b = ObjectAnimator.ofFloat(timeTileImageView,
+                "x", timeTileImageView.getX(), imgv2x);
 
-        if(centerTile == 4 || centerTile == 1) {
+        if (centerTile == 4 || centerTile == 1) {
             animSetXYa.playTogether(imganim1a, imganim2b, imganim3b, imganim4a);
             animSetXYa.setInterpolator(new AccelerateInterpolator());
             animSetXYb.playTogether(imganim1b, imganim2a, imganim3a, imganim4b);
@@ -361,8 +340,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             animSetXY.playTogether(animSetXYa, animSetXYb);
             animSetXY.setDuration(500);
             animSetXY.start();
-        }
-        else{
+        } else {
             animSetXYa.playTogether(imganim2a, imganim4b, imganim1b, imganim3a);
             animSetXYa.setInterpolator(new AccelerateInterpolator());
             animSetXYb.playTogether(imganim2b, imganim4a, imganim1a, imganim3b);
@@ -374,48 +352,48 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     }
 
     //For counter-clockwise animation
-    private void animateDiagonalPan2() {
+    private void animateLeft() {
         AnimatorSet animSetXY = new AnimatorSet();
         AnimatorSet animSetXYa = new AnimatorSet();
         AnimatorSet animSetXYb = new AnimatorSet();
 
-        float imgv1x = imgv1.getX();
-        float imgv1y = imgv1.getY();
+        float imgv1x = runTileImageView.getX();
+        float imgv1y = runTileImageView.getY();
 
-        float imgv2x = imgv2.getX();
-        float imgv2y = imgv2.getY();
+        float imgv2x = distanceTileImageView.getX();
+        float imgv2y = distanceTileImageView.getY();
 
-        float imgv3x = imgv3.getX();
-        float imgv3y = imgv3.getY();
+        float imgv3x = cardioTileImageView.getX();
+        float imgv3y = cardioTileImageView.getY();
 
-        float imgv4x = imgv4.getX();
-        float imgv4y = imgv4.getY();
+        float imgv4x = timeTileImageView.getX();
+        float imgv4y = timeTileImageView.getY();
 
-        ObjectAnimator imganim1a = ObjectAnimator.ofFloat(imgv1,
-                "y", imgv1.getY(), imgv2y);
+        ObjectAnimator imganim1a = ObjectAnimator.ofFloat(runTileImageView,
+                "y", runTileImageView.getY(), imgv2y);
 
-        ObjectAnimator imganim1b = ObjectAnimator.ofFloat(imgv1,
-                "x", imgv1.getX(), imgv2x);
+        ObjectAnimator imganim1b = ObjectAnimator.ofFloat(runTileImageView,
+                "x", runTileImageView.getX(), imgv2x);
 
-        ObjectAnimator imganim2a = ObjectAnimator.ofFloat(imgv2,
-                "y", imgv2.getY(), imgv4y);
+        ObjectAnimator imganim2a = ObjectAnimator.ofFloat(distanceTileImageView,
+                "y", distanceTileImageView.getY(), imgv4y);
 
-        ObjectAnimator imganim2b = ObjectAnimator.ofFloat(imgv2,
-                "x", imgv2.getX(), imgv4x);
+        ObjectAnimator imganim2b = ObjectAnimator.ofFloat(distanceTileImageView,
+                "x", distanceTileImageView.getX(), imgv4x);
 
-        ObjectAnimator imganim3a = ObjectAnimator.ofFloat(imgv3,
-                "y", imgv3.getY(), imgv1y);
+        ObjectAnimator imganim3a = ObjectAnimator.ofFloat(cardioTileImageView,
+                "y", cardioTileImageView.getY(), imgv1y);
 
-        ObjectAnimator imganim3b = ObjectAnimator.ofFloat(imgv3,
-                "x", imgv3.getX(), imgv1x);
+        ObjectAnimator imganim3b = ObjectAnimator.ofFloat(cardioTileImageView,
+                "x", cardioTileImageView.getX(), imgv1x);
 
-        ObjectAnimator imganim4a = ObjectAnimator.ofFloat(imgv4,
-                "y", imgv4.getY(), imgv3y);
+        ObjectAnimator imganim4a = ObjectAnimator.ofFloat(timeTileImageView,
+                "y", timeTileImageView.getY(), imgv3y);
 
-        ObjectAnimator imganim4b = ObjectAnimator.ofFloat(imgv4,
-                "x", imgv4.getX(), imgv3x);
+        ObjectAnimator imganim4b = ObjectAnimator.ofFloat(timeTileImageView,
+                "x", timeTileImageView.getX(), imgv3x);
 
-        if(centerTile == 4 || centerTile == 1) {
+        if (centerTile == 4 || centerTile == 1) {
             animSetXYa.playTogether(imganim1a, imganim2b, imganim3b, imganim4a);
             animSetXYa.setInterpolator(new AccelerateInterpolator());
             animSetXYb.playTogether(imganim1b, imganim2a, imganim3a, imganim4b);
@@ -423,8 +401,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             animSetXY.playTogether(animSetXYa, animSetXYb);
             animSetXY.setDuration(500);
             animSetXY.start();
-        }
-        else{
+        } else {
             animSetXYa.playTogether(imganim2a, imganim4b, imganim1b, imganim3a);
             animSetXYa.setInterpolator(new AccelerateInterpolator());
             animSetXYb.playTogether(imganim2b, imganim4a, imganim1a, imganim3b);
@@ -436,82 +413,82 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     }
 
     //Evaluates and returns the center after a clockwise animation
-    private int evaluateCenterRight(int centerTile){
+    private int evaluateCenterRight(int centerTile) {
         //clockwise
         //integer corresponds to the respective imageview
-        switch (centerTile){
+        switch (centerTile) {
             case 1:
                 runLayout.setVisibility(View.GONE);
                 centerTile = 2;
                 distanceLayout.setVisibility(View.VISIBLE);
-                imgv4.bringToFront();
-                imgv1.bringToFront();
-                imgv2.bringToFront();
+                timeTileImageView.bringToFront();
+                runTileImageView.bringToFront();
+                distanceTileImageView.bringToFront();
                 break;
             case 2:
                 distanceLayout.setVisibility(View.GONE);
                 centerTile = 4;
                 timeLayout.setVisibility(View.VISIBLE);
-                imgv3.bringToFront();
-                imgv2.bringToFront();
-                imgv4.bringToFront();
+                cardioTileImageView.bringToFront();
+                distanceTileImageView.bringToFront();
+                timeTileImageView.bringToFront();
                 break;
             case 3:
                 cardioLayout.setVisibility(View.GONE);
                 centerTile = 1;
                 runLayout.setVisibility(View.VISIBLE);
-                imgv2.bringToFront();
-                imgv3.bringToFront();
-                imgv1.bringToFront();
+                distanceTileImageView.bringToFront();
+                cardioTileImageView.bringToFront();
+                runTileImageView.bringToFront();
                 break;
             case 4:
                 timeLayout.setVisibility(View.GONE);
                 centerTile = 3;
                 cardioLayout.setVisibility(View.VISIBLE);
-                imgv1.bringToFront();
-                imgv4.bringToFront();
-                imgv3.bringToFront();
+                runTileImageView.bringToFront();
+                timeTileImageView.bringToFront();
+                cardioTileImageView.bringToFront();
                 break;
         }
         return centerTile;
     }
 
     //Evaluates and returns center after counter-clockwise animation
-    private int evaluateCenterLeft(int centerTile){
+    private int evaluateCenterLeft(int centerTile) {
         //anti-clockwise
         //integer corresponds to the respective imageview
-        switch (centerTile){
+        switch (centerTile) {
             case 1:
                 runLayout.setVisibility(View.GONE);
                 centerTile = 3;
                 cardioLayout.setVisibility(View.VISIBLE);
-                imgv4.bringToFront();
-                imgv1.bringToFront();
-                imgv3.bringToFront();
+                timeTileImageView.bringToFront();
+                runTileImageView.bringToFront();
+                cardioTileImageView.bringToFront();
                 break;
             case 2:
                 distanceLayout.setVisibility(View.GONE);
                 centerTile = 1;
                 runLayout.setVisibility(View.VISIBLE);
-                imgv3.bringToFront();
-                imgv2.bringToFront();
-                imgv1.bringToFront();
+                cardioTileImageView.bringToFront();
+                distanceTileImageView.bringToFront();
+                runTileImageView.bringToFront();
                 break;
             case 3:
                 cardioLayout.setVisibility(View.GONE);
                 centerTile = 4;
                 timeLayout.setVisibility(View.VISIBLE);
-                imgv2.bringToFront();
-                imgv3.bringToFront();
-                imgv4.bringToFront();
+                distanceTileImageView.bringToFront();
+                cardioTileImageView.bringToFront();
+                timeTileImageView.bringToFront();
                 break;
             case 4:
                 timeLayout.setVisibility(View.GONE);
                 centerTile = 2;
                 distanceLayout.setVisibility(View.VISIBLE);
-                imgv1.bringToFront();
-                imgv4.bringToFront();
-                imgv2.bringToFront();
+                runTileImageView.bringToFront();
+                timeTileImageView.bringToFront();
+                distanceTileImageView.bringToFront();
                 break;
         }
         return centerTile;
@@ -525,19 +502,19 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
     @Override
     public void onClick(View v) {
 
-        if(v == beginbtn){
-            android.support.v4.app.Fragment childFragment = new WeightFragment();
+        if (v == tilesBeginButton) {
+            android.support.v4.app.Fragment childFragment = new CountdownFragment();
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.performance_framelayout, childFragment).commit();
+            transaction.replace(R.id.tiles_framelayout, childFragment).commit();
         }
 
-        if (v == connectbtn) {
+        if (v == tilesConnectButton) {
             Toast.makeText(getContext(), "Connecting...", Toast.LENGTH_SHORT).show();
         }
 
         //Cardio Panel Items
 
-        if(v == cardiopanelType){
+        if (v == cardiopanelType) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Cardio Type :");
@@ -548,7 +525,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     indexCardioPanelType = which;
                     cardioPanelTypeValue = cardioPanelTypeArray[which];
                     String strName = cardioPanelTypeArray[which];
-                    cardioPanelTypetv.setText(strName+" >");
+                    cardioPanelTypetv.setText(strName + " >");
                     dialog.dismiss();
                 }
             });
@@ -561,7 +538,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-        if(v == cardiopanelFeedback){
+        if (v == cardiopanelFeedback) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
@@ -585,7 +562,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-        if(v == cardiopanelLocation){
+        if (v == cardiopanelLocation) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Location :");
@@ -596,7 +573,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     indexCardioPanelLocation = which;
                     cardioPanelLocationValue = cardioPanelLocationArray[which];
                     String strName = cardioPanelLocationArray[which];
-                    cardioPanelLocationtv.setText(strName+" >");
+                    cardioPanelLocationtv.setText(strName + " >");
                     dialog.dismiss();
                 }
             });
@@ -612,33 +589,31 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         //Time Panel Items
 
-        if(v == timepanelTime){
+        if (v == timepanelTime) {
             try {
                 Date date = sdf.parse(timePanelTimeValue);
                 dateTime.setTime(date);
-            }
-            catch(ParseException e){
+            } catch (ParseException e) {
                 System.out.println(e);
             }
             MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog(getContext(), new MyTimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
-                    timePanelTimeValue = (String.format("%02d", hourOfDay)+
+                    timePanelTimeValue = (String.format("%02d", hourOfDay) +
                             ":" + String.format("%02d", minute) +
                             ":" + String.format("%02d", seconds));
                     try {
-                        timePanelTimetv.setText(timePanelTimeValue+" >");
+                        timePanelTimetv.setText(timePanelTimeValue + " >");
                         Date date = sdf.parse(timePanelTimeValue);
                         dateTime.setTime(date);
-                    }
-                    catch (ParseException e){
+                    } catch (ParseException e) {
                         System.out.println(e);
                     }
                 }
-            }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar. SECOND), true);
+            }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar.SECOND), true);
             myTimePickerDialog.show();
         }
-        if(v == timepanelLocation){
+        if (v == timepanelLocation) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Location :");
@@ -649,7 +624,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     indexTimePanelLocation = which;
                     timePanelLocationValue = timePanelLocationArray[which];
                     String strName = timePanelLocationArray[which];
-                    timePanelLocationtv.setText(strName+" >");
+                    timePanelLocationtv.setText(strName + " >");
                     dialog.dismiss();
                 }
             });
@@ -662,7 +637,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-        if(v == timepanelFeedback){
+        if (v == timepanelFeedback) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
@@ -689,12 +664,12 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
 
         //Distance Panel
 
-        if(v == distancepanelDistance){
+        if (v == distancepanelDistance) {
             RelativeLayout linearLayout = new RelativeLayout(getContext());
             final NumberPicker aNumberPicker = new NumberPicker(getContext());
             aNumberPicker.setMaxValue(30);
             aNumberPicker.setMinValue(2);
-            if(distancePanelDistanceValue!=null)
+            if (distancePanelDistanceValue != null)
                 aNumberPicker.setValue(Integer.parseInt(distancePanelDistanceValue));
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
@@ -702,7 +677,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             numPicerParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
             linearLayout.setLayoutParams(params);
-            linearLayout.addView(aNumberPicker,numPicerParams);
+            linearLayout.addView(aNumberPicker, numPicerParams);
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Distance :");
@@ -713,8 +688,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int id) {
-                                    distancePanelDistanceValue = aNumberPicker.getValue()+"";
-                                    distancePanelDistancetv.setText(aNumberPicker.getValue()+"km >");
+                                    distancePanelDistanceValue = aNumberPicker.getValue() + "";
+                                    distancePanelDistancetv.setText(aNumberPicker.getValue() + "km >");
 
                                 }
                             })
@@ -728,7 +703,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }
-        if(v == distancepanelFeedback){
+        if (v == distancepanelFeedback) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
@@ -752,7 +727,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-        if(v == distancepanelLocation){
+        if (v == distancepanelLocation) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Location :");
@@ -763,7 +738,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                     indexDistancePanelLocation = which;
                     distancePanelLocationValue = distancePanelLocationArray[which];
                     String strName = distancePanelLocationArray[which];
-                    distancePanelLocationtv.setText(strName+" >");
+                    distancePanelLocationtv.setText(strName + " >");
                     dialog.dismiss();
                 }
             });
@@ -776,41 +751,39 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-        if(v == distancepanelTime){
+        if (v == distancepanelTime) {
             try {
                 Date date = sdf.parse(distancePanelTimeValue);
                 dateTime.setTime(date);
-            }
-            catch(ParseException e){
+            } catch (ParseException e) {
                 System.out.println(e);
             }
             MyTimePickerDialog myTimePickerDialog = new MyTimePickerDialog(getContext(), new MyTimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
-                    distancePanelTimeValue = (String.format("%02d", hourOfDay)+
+                    distancePanelTimeValue = (String.format("%02d", hourOfDay) +
                             ":" + String.format("%02d", minute) +
                             ":" + String.format("%02d", seconds));
                     try {
-                        distancePanelTimetv.setText(distancePanelTimeValue+" >");
+                        distancePanelTimetv.setText(distancePanelTimeValue + " >");
                         Date date = sdf.parse(distancePanelTimeValue);
                         dateTime.setTime(date);
-                    }
-                    catch (ParseException e){
+                    } catch (ParseException e) {
                         System.out.println(e);
                     }
                 }
-            }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar. SECOND), true);
+            }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), dateTime.get(Calendar.SECOND), true);
             myTimePickerDialog.show();
         }
 
         //Run Panel
 
-        if(v == runpanelDistance){
+        if (v == runpanelDistance) {
             RelativeLayout linearLayout = new RelativeLayout(getContext());
             final NumberPicker aNumberPicker = new NumberPicker(getContext());
             aNumberPicker.setMaxValue(30);
             aNumberPicker.setMinValue(2);
-            if(runPanelDistanceValue!=null)
+            if (runPanelDistanceValue != null)
                 aNumberPicker.setValue(Integer.parseInt(runPanelDistanceValue));
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
@@ -818,7 +791,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             numPicerParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
             linearLayout.setLayoutParams(params);
-            linearLayout.addView(aNumberPicker,numPicerParams);
+            linearLayout.addView(aNumberPicker, numPicerParams);
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
             alertDialogBuilder.setTitle("Distance :");
@@ -829,8 +802,8 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int id) {
-                                    runPanelDistanceValue = aNumberPicker.getValue()+"";
-                                    runPanelDistancetv.setText(aNumberPicker.getValue()+"km >");
+                                    runPanelDistanceValue = aNumberPicker.getValue() + "";
+                                    runPanelDistancetv.setText(aNumberPicker.getValue() + "km >");
 
                                 }
                             })
@@ -845,7 +818,7 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             alertDialog.show();
         }
 
-        if(v == runpanelFeedback){
+        if (v == runpanelFeedback) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
             builderSingle.setIcon(R.mipmap.ic_launcher);
             builderSingle.setTitle("Feedback :");
@@ -869,6 +842,5 @@ public class PerformanceFragment extends android.support.v4.app.Fragment impleme
             });
             builderSingle.show();
         }
-
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/session_framelayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/training_framelayout">
+    android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/training_tab"
+        android:id="@+id/session_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/backgroundimg">
@@ -181,7 +181,7 @@
             <!--Settings Tab-->
 
             <ImageView
-                android:id="@+id/condense_img"
+                android:id="@+id/condense_session_img"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
@@ -189,7 +189,7 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/setting_img2"
+                android:id="@+id/session_img2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"
@@ -197,7 +197,7 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/setting_img3"
+                android:id="@+id/session_img3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.3"

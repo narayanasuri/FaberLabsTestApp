@@ -8,9 +8,9 @@
     <!--Performance Tab-->
 
     <FrameLayout
+        android:id="@+id/tiles_framelayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/performance_framelayout">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/performance_tab"
@@ -21,7 +21,7 @@
             android:padding="8dp">
 
             <Button
-                android:id="@+id/connectbtn"
+                android:id="@+id/tiles_connect_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -33,7 +33,7 @@
                 android:id="@+id/tiles_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/connectbtn"
+                android:layout_below="@id/tiles_connect_button"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -43,21 +43,21 @@
                     android:layout_marginTop="10dp">
 
                     <ImageView
-                        android:id="@+id/imgv1"
+                        android:id="@+id/run_tile_imageview"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/runbox" />
 
                     <ImageView
-                        android:id="@+id/imgv2"
+                        android:id="@+id/distance_tile_imageview"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_marginTop="40dp"
                         android:src="@drawable/distancebox" />
 
                     <ImageView
-                        android:id="@+id/imgv3"
+                        android:id="@+id/cardio_tile_imageview"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_alignParentEnd="true"
@@ -65,7 +65,7 @@
                         android:src="@drawable/cardiobox" />
 
                     <ImageView
-                        android:id="@+id/imgv4"
+                        android:id="@+id/time_tile_imageview"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_centerHorizontal="true"
@@ -463,7 +463,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/beginbtn"
+                android:id="@+id/tiles_begin_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
